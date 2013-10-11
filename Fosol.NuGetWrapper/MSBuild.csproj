@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0" DefaultTargets="NuGetBuild">
+  <PropertyGroup>
+    <NuGetExtensionsDir>$(ProjectDir)Build\</NuGetExtensionsDir>
+    <NuGetSpecId>Fosol.NuGetWrapper</NuGetSpecId>
+  </PropertyGroup>
+  <ItemGroup>
+    <NuGetTool Include="Build\*.*"/>
+    <NuGetContent Include="Content\*.*"/>
+    <NuGetTool Include="Tools\*.*"/>
+    <NuGetLib Include="Lib\*.*"/>
+  </ItemGroup>
+  <Import Project="$(NuGetExtensionsDir)Fosol.NuGetWrapper.targets" Condition="Exists('$(NuGetExtensionsDir)Fosol.NuGetWrapper.targets')"/>
+  <Target Name="CopyPackage" AfterTargets="AfterBuild">
+    <Exec Command="xcopy &quot;$(NuGetOutput)&quot; &quot;C:\Users\jmfoster\SkyDrive\Fosol Solutions\Libraries\NuGetFeed&quot; /y" />
+  </Target>
+</Project>

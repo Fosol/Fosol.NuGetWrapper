@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A19CB40F-988A-4603-99B4-478E350E02F7}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fosol.NuGetWrapper", "Fosol.NuGetWrapper\Fosol.NuGetWrapper.csproj", "{D5B0AC0F-D80B-4685-A0F6-48FC871BC207}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D5B0AC0F-D80B-4685-A0F6-48FC871BC207}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5B0AC0F-D80B-4685-A0F6-48FC871BC207}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5B0AC0F-D80B-4685-A0F6-48FC871BC207}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5B0AC0F-D80B-4685-A0F6-48FC871BC207}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

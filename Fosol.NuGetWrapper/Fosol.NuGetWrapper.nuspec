@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <authors>Jeremy Foster</authors>
+    <description>Fosol Solutions NuGet build tools.</description>
+    <language>en-US</language>
+    <projectUrl>http://www.fosol.ca/nugetwrapper</projectUrl>
+    <licenseUrl>http://www.fosol.ca/nugetwrapper/license</licenseUrl>
+    <tags>Fosol NuGet Wrapper</tags>
+  </metadata>
+  <files>
+    <file src="Tools\Fosol.NuGetWrapper.README.md" target="tools\Fosol.NuGetWrapper.README.md" />
+    <file src="Tools\Fosol.NuGetWrapper.Targets" target="tools\Fosol.NuGetWrapper.Targets" />
+    <file src="Tools\Fosol.NuGetWrapper.xslt" target="tools\Fosol.NuGetWrapper.xslt" />
+    <file src="Tools\Fosol.NuGetWrapper.Props.ps1" target="tools\Fosol.NuGetWrapper.Props.ps1" />
+    <file src="Tools\Fosol.NuGetWrapper.psd1" target="tools\Fosol.NuGetWrapper.psd1" />
+    <file src="Tools\Fosol.NuGetWrapper.psm1" target="tools\Fosol.NuGetWrapper.psm1" />
+    <file src="Tools\Fosol.Common.psm1" target="tools\Fosol.Common.psm1" />
+    <file src="Tools\Fosol.Common.MSBuild.psm1" target="tools\Fosol.Common.MSBuild.psm1" />
+    <file src="Tools\Init.ps1" target="tools\Init.ps1" />
+    <file src="Tools\Install.ps1" target="tools\Install.ps1" />
+    <file src="Tools\Uninstall.ps1" target="tools\Uninstall.ps1" />
+    <file src="Content\Fosol.NuGetWrapper.csproj" target="content\Fosol.NuGetWrapper.csproj" />
+  </files>
+</package>
