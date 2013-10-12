@@ -12,6 +12,9 @@
   </ItemGroup>
   <Import Project="$(NuGetExtensionsDir)Fosol.NuGetWrapper.targets" Condition="Exists('$(NuGetExtensionsDir)Fosol.NuGetWrapper.targets')"/>
   <Target Name="CopyPackage" AfterTargets="AfterBuild">
-    <Exec Command="xcopy &quot;$(NuGetOutput)&quot; &quot;C:\Users\jmfoster\SkyDrive\Fosol Solutions\Libraries\NuGetFeed&quot; /y" />
+    <Exec Condition="$(ComputerName) == 'PDJMFOSTER2'" 
+          Command="xcopy &quot;$(NuGetOutput)&quot; &quot;C:\Users\jmfoster\SkyDrive\Fosol Solutions\Libraries\NuGetFeed&quot; /y" />
+    <Exec Condition="$(ComputerName) == 'XPS13'"
+          Command="xcopy &quot;$(NuGetOutput)&quot; &quot;C:\Users\jeremy\SkyDrive\Fosol Solutions\Libraries\NuGetFeed&quot; /y" />
   </Target>
 </Project>
