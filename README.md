@@ -31,7 +31,8 @@ For a basic project it's as simple as installing the Fosol.NuGetWrapper package 
 
 ### Package Manager Console Example
 1. Open your solution/project in Visual Studio
-2. Execute nuget.exe install Fosol.NuGetWrapper
+2. Open the Package Manager Console
+3. PM> Install-Package Fosol.NuGetWrapper
 
 ### Library Package Manager Tool
 1. Open your solution/project in Visual Studio

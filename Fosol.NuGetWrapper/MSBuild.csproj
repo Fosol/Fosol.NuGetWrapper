@@ -5,6 +5,7 @@
     <NuGetSpecId>Fosol.NuGetWrapper</NuGetSpecId>
   </PropertyGroup>
   <ItemGroup>
+    <NuGetTool Include="$(SolutionDir)README.md"/>
     <NuGetTool Include="Build\*.*"/>
     <NuGetContent Include="Content\*.*"/>
     <NuGetTool Include="Tools\*.*"/>
