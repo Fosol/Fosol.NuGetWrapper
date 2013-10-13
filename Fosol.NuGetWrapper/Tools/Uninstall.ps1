@@ -6,8 +6,8 @@ param($installPath, $toolsPath, $package, $project)
 
 Write-Host ("{0}{1}" -f "Running Uninstall.ps1 for ", $package)
 
-.(Join-Path $toolsPath Fosol.NuGetWrapper.Props.ps1)
 Import-Module (Join-Path $toolsPath Fosol.NuGetWrapper.psd1)
+.(Join-Path $toolsPath Fosol.NuGetWrapper.Props.ps1)
 
 # Remove the .nuget folder from the solution.
 function Remove-BuildFolder {
@@ -20,9 +20,15 @@ function Remove-BuildFolder {
 	}
 
 	# Only remove the folder if it's empty.  If it has other files it means it belongs to something else.
-	$isEmpty = Get-IsDirectoryEmpty($buildDir)
-	if ($isEmpty -eq $true) {
+	if ((Get-IsDirectoryEmpty($buildDir)) -eq $true) {
 		Remove-Project($buildProject)
+		Remove-Item $buildDir
+	}
+
+	# Only remove the .nuget folder if it's empty.  If it has other files it means it belongs to something else.
+	$path = (Join-Path (Get-SolutionDirectory) $buildRoot)
+	if ((Get-IsDirectoryEmpty($path)) -eq $true) {
+		Remove-Item $buildRoot
 	}
 }
 

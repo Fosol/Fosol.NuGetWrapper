@@ -3,7 +3,7 @@
 
   <PropertyGroup>
     <!-- Directory containing the NuGet.xslt file. -->
-    <NuGetExtensionsDir Condition=" '$(NuGetExtensionsDir)' == '' ">$(SolutionDir).build\</NuGetExtensionsDir>
+    <NuGetExtensionsDir Condition=" '$(NuGetExtensionsDir)' == '' ">$(SolutionDir).nuget\</NuGetExtensionsDir>
     <NuGetSpecXsltName Condition=" '$(NuGetSpecXsltName)' == '' ">Fosol.NuGetWrapper.xslt</NuGetSpecXsltName>
     
     <NuGetSpecExt>.nuspec</NuGetSpecExt>

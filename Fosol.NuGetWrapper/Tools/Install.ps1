@@ -6,11 +6,11 @@ param($installPath, $toolsPath, $package, $project)
 
 Write-Host ("{0}{1}" -f "Running Install.ps1 for ", $package)
 
-.(Join-Path $toolsPath Fosol.NuGetWrapper.Props.ps1)
 Import-Module (Join-Path $toolsPath Fosol.NuGetWrapper.psd1)
+.(Join-Path $toolsPath Fosol.NuGetWrapper.Props.ps1)
 
 #  Create a .nuget folder and copy the files into it.
-function Add-BuildFolder($project) {
+function Add-BuildFolder {
 	if(!(Test-Path $buildDir)) {
 		mkdir $buildDir | Out-Null
 	}
@@ -19,16 +19,14 @@ function Add-BuildFolder($project) {
 	foreach ($buildFile in $buildFiles) {
 		Copy-Item "$toolsPath\$buildFile" $buildDir -Force | Out-Null
 	}
-
-	return "$buildDir"
 }
 
 # Update the solution to include the .nuget folder and the files in the folder.
-function Update-Solution($buildDir) {
+function Update-Solution {
 	# Get the open solution.
 	$solution = Get-Interface $dte.Solution ([EnvDTE80.Solution2])
-
-	# Create the solution folder.
+		
+	# Add the package folder to the solution.
 	$buildProj = $solution.Projects | Where {$_.ProjectName -eq $buildDirName}
 	if (!$buildProj) {
 		$buildProj = $solution.AddSolutionFolder($buildDirName)
@@ -105,8 +103,8 @@ function Add-NuSpec {
 }
 
 function Main {
-	$buildDir = Add-BuildFolder $project
-	Update-Solution $buildDir
+	Add-BuildFolder
+	Update-Solution
 	Add-ProjectHelper $project.Name
 	Add-NuSpec $project.Name
 	Write-Host "Don't forget to commit the .nuget folder"
