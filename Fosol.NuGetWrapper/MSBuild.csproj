@@ -5,11 +5,12 @@
     <NuGetSpecId>Fosol.NuGetWrapper</NuGetSpecId>
   </PropertyGroup>
   <ItemGroup>
-    <NuGetTool Include="$(SolutionDir)README.md"/>
+    <NuGetBuild Include="Build\**\*.*"/>
     <NuGetContent Include="Content\**\*.*"/>
     <NuGetLib Include="Lib\**\*.*"/>
     <NuGetTool Include="Solution\**\*.*"/>
     <NuGetTool Include="Tools\**\*.*"/>
+    <NuGetTool Include="$(SolutionDir)README.md"/>
   </ItemGroup>
   <Import Project="$(NuGetExtensionsDir)Fosol.NuGetWrapper.targets" Condition="Exists('$(NuGetExtensionsDir)Fosol.NuGetWrapper.targets')"/>
   <Target Name="CopyPackage" AfterTargets="AfterBuild">

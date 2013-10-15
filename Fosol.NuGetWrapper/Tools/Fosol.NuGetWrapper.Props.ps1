@@ -3,7 +3,7 @@
 $buildFiles = @(
 	"Fosol.NuGetWrapper.targets", 
 	"Fosol.NuGetWrapper.xslt", 
-	"Fosol.NuGetWrapper.ReadMe.md")
+	"Fosol.NuGetWrapper.README.md")
 
 $packageVersion = Format-PackageVersion $package
 $buildRootDirName = ".nuget"
