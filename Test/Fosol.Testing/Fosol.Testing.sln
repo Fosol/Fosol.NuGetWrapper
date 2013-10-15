@@ -1,15 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.20827.3
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fosol.Testing.NuGet", "Fosol.Testing.NuGet\Fosol.Testing.NuGet.csproj", "{F3F2518E-51E9-4D66-8981-0BC42EA6A8F6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A0C30C40-3E0F-4AA2-8888-4A6782EF9699}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Fosol.NuGetWrapper.1.0.0.0", "Fosol.NuGetWrapper.1.0.0.0", "{64D8B1DD-63D7-40D3-ADCF-4BA5C7FDB225}"
 	ProjectSection(SolutionItems) = preProject
-		.nuget\Fosol.NuGetWrapper.ReadMe.md = .nuget\Fosol.NuGetWrapper.ReadMe.md
-		.nuget\Fosol.NuGetWrapper.targets = .nuget\Fosol.NuGetWrapper.targets
-		.nuget\Fosol.NuGetWrapper.xslt = .nuget\Fosol.NuGetWrapper.xslt
+		.nuget\Fosol.NuGetWrapper.1.0.0.0\Fosol.NuGetWrapper.ReadMe.md = .nuget\Fosol.NuGetWrapper.1.0.0.0\Fosol.NuGetWrapper.ReadMe.md
+		.nuget\Fosol.NuGetWrapper.1.0.0.0\Fosol.NuGetWrapper.targets = .nuget\Fosol.NuGetWrapper.1.0.0.0\Fosol.NuGetWrapper.targets
+		.nuget\Fosol.NuGetWrapper.1.0.0.0\Fosol.NuGetWrapper.xslt = .nuget\Fosol.NuGetWrapper.1.0.0.0\Fosol.NuGetWrapper.xslt
 	EndProjectSection
 EndProject
 Global

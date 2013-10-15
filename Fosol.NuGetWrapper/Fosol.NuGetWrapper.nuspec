@@ -11,8 +11,7 @@
     <tags>Fosol NuGet Wrapper</tags>
   </metadata>
   <files>
-    <file src="Content\Fosol.NuGetWrapper.csproj" target="content\Fosol.NuGetWrapper.csproj" />
-    <file src="Tools\Fosol.NuGetWrapper.README.md" target="tools\Fosol.NuGetWrapper.README.md" />
+    <file src="Tools\README.md" target="tools\Fosol.NuGetWrapper.README.md" />
     <file src="Tools\Fosol.NuGetWrapper.Targets" target="tools\Fosol.NuGetWrapper.Targets" />
     <file src="Tools\Fosol.NuGetWrapper.xslt" target="tools\Fosol.NuGetWrapper.xslt" />
     <file src="Tools\Fosol.NuGetWrapper.Props.ps1" target="tools\Fosol.NuGetWrapper.Props.ps1" />

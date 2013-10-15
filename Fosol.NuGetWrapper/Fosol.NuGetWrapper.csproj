@@ -56,9 +56,6 @@
     <Content Include="Tools\Uninstall.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Solution\Fosol.NuGetWrapper.README.md">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Include="Tools\Fosol.NuGetWrapper.Props.ps1" />
     <None Include="Tools\Fosol.NuGetWrapper.psm1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

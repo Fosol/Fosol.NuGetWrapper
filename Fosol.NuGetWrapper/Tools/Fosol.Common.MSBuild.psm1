@@ -146,31 +146,37 @@ function Remove-ProjectItem {
 	}
 }
 
-# Removes and deletes the project from the solution.
+# Removes the project from the solution and then attempts to delete it.
 function Remove-Project {
 	param(
 		[parameter(Mandatory = $true)]$project
 	)
 	if ($project) {
-		# If it's an actual project object it will have a FullName value.
-		if ($project.FullName) {
-			Write-Host ("Deleting project '{0}' from solution." -f $project.Name)
-			$projectDir = $project.FullName
-			$dte.Solution.Remove($project)
-			Remove-Item $projectDir
-		} else {
-			# The $project is actually just the name of the folder in the solution.
-			Write-Host ("Deleting folder '{0}' from solution." -f $project.Name)
-			$projectDir = (Join-Path (Get-SolutionDirectory) $project.Name)
-			$dte.Solution.Remove($project)
-			Remove-Item $projectDir
+		try {
+			# If it's an actual project object it will have a FullName value.
+			if ($project.FullName) {
+				Write-Host ("Deleting project '{0}' from solution." -f $project.Name)
+				$projectDir = $project.FullName
+				$dte.Solution.Remove($project)
+			} else {
+				# The $project is actually just the name of the folder in the solution.
+				Write-Host ("Deleting folder '{0}' from solution." -f $project.Name)
+				$projectDir = (Join-Path (Get-SolutionDirectory) $project.Name)
+				$dte.Solution.Remove($project)
+			}
+
+			if ((Test-Path $projectDir)) {
+				Remove-Item $projectDir
+			}
+		} catch {
+			Write-Error "Failed to remove project '$($project.Name)' or its folder `"$projectDir`""
 		}
 	}
 }
 
 function Get-InstallPath {
     param(
-        $package
+        [parameter(Mandatory = $true)]$package
     )
     # Get the repository path
     $componentModel = Get-VSComponentModel
@@ -179,6 +185,18 @@ function Get-InstallPath {
     $pathResolver.GetInstallPath($package)
 }
 
+# Returns the package version information as a friendly string
+function Format-PackageVersion {
+	param(
+		[parameter(Mandatory = $true)]$package,
+		[string]$format = "{0}.{1}.{2}.{3}"
+	)
+
+	return ($format -f $package.Version.Version.Major, 
+		$package.Version.Version.Minor, 
+		$package.Version.Version.Build, 
+		$package.Version.Version.Revision)
+}
 
 'Set-MSBuildProperty', 'Add-SolutionDirProperty', 'Add-Import', 'Remove-Import' | %{ 
     Register-TabExpansion $_ @{
@@ -212,4 +230,5 @@ Export-ModuleMember -Function Get-SolutionDirectory,
 	Add-SolutionDirProperty, 
 	Remove-ProjectItem, 
 	Remove-Project, 
-	Get-InstallPath
+	Get-InstallPath,
+	Format-PackageVersion
