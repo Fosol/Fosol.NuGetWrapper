@@ -10,19 +10,24 @@ Write-Host ("{0}{1}" -f "Running Uninstall.ps1 for ", $package)
 Import-Module (Join-Path $toolsPath Fosol.NuGetWrapper.psd1)
 
 # Remove the .nuget folder from the solution.
-function Remove-BuildFolder {
-	$buildProject = $dte.Solution.Projects | Where { $_.ProjectName -eq $buildDirName }
+function Remove-NuGetFolderFromSolution {
+	try {
+		$buildProject = $dte.Solution.Projects | Where { $_.ProjectName -eq $buildDirName }
 
-	# Remove each installed file from the solution.
-	foreach ($buildFile in $buildFiles) {
-		$projectItem = $buildProject.ProjectItems | Where { $_.Name -eq $buildFile }
-		Remove-ProjectItem($projectItem)
+		# Remove each installed file from the solution.
+		foreach ($buildFile in $buildFiles) {
+			$projectItem = $buildProject.ProjectItems | Where { $_.Name -eq $buildFile }
+			Remove-ProjectItem($projectItem)
+		}
+
+		# Only remove the folder if it's empty.  If it has other files it means it belongs to something else.
+		$isEmpty = Get-IsDirectoryEmpty($buildDir)
+		if ($isEmpty -eq $true) {
+			Remove-Project($buildProject)
+		}
 	}
-
-	# Only remove the folder if it's empty.  If it has other files it means it belongs to something else.
-	$isEmpty = Get-IsDirectoryEmpty($buildDir)
-	if ($isEmpty -eq $true) {
-		Remove-Project($buildProject)
+	catch {
+		Write-Error "Failed to remove '\.nuget\Fosol.NuGetWrapper.[version]\' folder and related files from the solution."
 	}
 }
 
@@ -73,7 +78,7 @@ function Remove-ProjectHelper {
 }
 
 function Main {
-	Remove-BuildFolder
+	Remove-NuGetFolderFromSolution
 	Remove-NuSpecFile $project.Name
 	Remove-ProjectHelper $project.Name
 }

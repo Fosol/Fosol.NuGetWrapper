@@ -116,8 +116,8 @@
   <!-- Build a NuGet package based on the nuspec file in the project. -->
   <Target Name="NuGetBuild" AfterTargets="CopyFilesToOutputDirectory">
     <Message Text="Build NuGet Package for $(TargetFrameworkIdentifier) $(TargetFrameworkVersion) $(TargetFrameworkProfile)"/>
+    <Message Text="NuGet Build; @(NuGetBuild)"/>
     <Message Text="NuGet Content; @(NuGetContent)"/>
-    <Message Text="NuGet Controllers; @(NuGetController)"/>
     <Message Text="NuGet Libs; @(NuGetLib)"/>
     <Message Text="NuGet Tools; @(NuGetTool)"/>
     <CallTarget Targets="NuGetInit;NuGetClean;NuGetPrepare;NuGetPack"/>
@@ -164,15 +164,15 @@
   <Target Name="NuGetPrepare">
     <Message Text="Prepare NuGet Package"/>
     <MakeDir Directories="$(NuGetOutDir)"/>
-    <MakeDir Condition=" '@(NuGetContent)' != '' " Directories="$(NuGetOutDir)content\"/>
-    <MakeDir Condition=" '@(NuGetController)' != '' " Directories="$(NuGetOutDir)content\controllers\"/>
+    <MakeDir Condition=" '@(NuGetBuild)' != '' " Directories="$(NuGetOutDir)build\%(RecursiveDir)"/>
+    <MakeDir Condition=" '@(NuGetContent)' != '' " Directories="$(NuGetOutDir)content\%(RecursiveDir)"/>
     <MakeDir Condition=" '@(NuGetLib)' != '' " Directories="$(NuGetOutDir)lib\"/>
-    <MakeDir Condition=" '@(NuGetTool)' != '' " Directories="$(NuGetOutDir)tools\"/>
-    
-    <Copy SourceFiles="@(NuGetContent)" DestinationFolder="$(NuGetOutDir)content\"/>
-    <Copy SourceFiles="@(NuGetController)" DestinationFolder="$(NuGetOutDir)content\controllers\"/>
+    <MakeDir Condition=" '@(NuGetTool)' != '' " Directories="$(NuGetOutDir)tools\%(RecursiveDir)"/>
+
+    <Copy SourceFiles="@(NuGetBuild)" DestinationFolder="$(NuGetOutDir)build\%(RecursiveDir)"/>
+    <Copy SourceFiles="@(NuGetContent)" DestinationFolder="$(NuGetOutDir)content\%(RecursiveDir)"/>
     <Copy SourceFiles="@(NuGetLib)" DestinationFolder="$(NuGetOutDir)lib\$(NuGetTargetFrameworkVersion)"/>
-    <Copy SourceFiles="@(NuGetTool)" DestinationFolder="$(NuGetOutDir)tools\"/>
+    <Copy SourceFiles="@(NuGetTool)" DestinationFolder="$(NuGetOutDir)tools\%(RecursiveDir)"/>
     
     <Message Text="Create NuGet Package Spec File"/>
     <!-- Transform the default NuGet spec file into a new one in the package directory. -->

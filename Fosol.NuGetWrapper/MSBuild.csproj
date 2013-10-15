@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0" DefaultTargets="NuGetBuild">
   <PropertyGroup>
-    <NuGetExtensionsDir>$(ProjectDir)Build\</NuGetExtensionsDir>
+    <NuGetExtensionsDir>$(ProjectDir)Solution\</NuGetExtensionsDir>
     <NuGetSpecId>Fosol.NuGetWrapper</NuGetSpecId>
   </PropertyGroup>
   <ItemGroup>
-    <NuGetTool Include="Build\*.*"/>
-    <NuGetContent Include="Content\*.*"/>
-    <NuGetTool Include="Tools\*.*"/>
-    <NuGetLib Include="Lib\*.*"/>
+    <NuGetBuild Include="Build\**\*.*"/>
+    <NuGetContent Include="Content\**\*.*"/>
+    <NuGetLib Include="Lib\**\*.*"/>
+    <NuGetTool Include="Solution\**\*.*"/>
+    <NuGetTool Include="Tools\**\*.*"/>
   </ItemGroup>
   <Import Project="$(NuGetExtensionsDir)Fosol.NuGetWrapper.targets" Condition="Exists('$(NuGetExtensionsDir)Fosol.NuGetWrapper.targets')"/>
   <Target Name="CopyPackage" AfterTargets="AfterBuild">

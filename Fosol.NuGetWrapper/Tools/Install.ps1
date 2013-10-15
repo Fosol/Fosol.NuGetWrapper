@@ -9,38 +9,40 @@ Write-Host ("{0}{1}" -f "Running Install.ps1 for ", $package)
 .(Join-Path $toolsPath Fosol.NuGetWrapper.Props.ps1)
 Import-Module (Join-Path $toolsPath Fosol.NuGetWrapper.psd1)
 
-#  Create a .nuget folder and copy the files into it.
-function Add-BuildFolder($project) {
-	if(!(Test-Path $buildDir)) {
-		mkdir $buildDir | Out-Null
-	}
+# Create a .nuget folder and a Fosol.NuGetWrapper.[version] folder.
+# Copy the files into it.
+# Add it to the solution.
+function Add-NuGetFolderToSolution {
+	try {
+		if(!(Test-Path $buildDir)) {
+			mkdir $buildDir | Out-Null
+		}
 
-	Write-Host "Copying $package files to $buildDir"
-	foreach ($buildFile in $buildFiles) {
-		Copy-Item "$toolsPath\$buildFile" $buildDir -Force | Out-Null
-	}
-
-	return "$buildDir"
-}
-
-# Update the solution to include the .nuget folder and the files in the folder.
-function Update-Solution($buildDir) {
-	# Get the open solution.
-	$solution = Get-Interface $dte.Solution ([EnvDTE80.Solution2])
-
-	# Create the solution folder.
-	$buildProj = $solution.Projects | Where {$_.ProjectName -eq $buildDirName}
-	if (!$buildProj) {
-		$buildProj = $solution.AddSolutionFolder($buildDirName)
-	}
+		Write-Host "Copying $package files to $buildDir"
+		foreach ($buildFile in $buildFiles) {
+			Copy-Item "$toolsPath\$buildFile" $buildDir -Force | Out-Null
+		}
 	
-	# Add files to build folder
-	$projectItems = Get-Interface $buildProj.ProjectItems ([EnvDTE.ProjectItems])
+		# Get the open solution.
+		$solution = Get-Interface $dte.Solution ([EnvDTE80.Solution2])
 
-	$filesInDir = [IO.Directory]::GetFiles($buildDir)
-	foreach ($fileName in $filesInDir) {
-		Write-Host "Adding $fileName to solution"
-		$projectItems.AddFromFile($fileName)
+		# Create the solution folder.
+		$buildProj = $solution.Projects | Where {$_.ProjectName -eq $buildDirName}
+		if (!$buildProj) {
+			$buildProj = $solution.AddSolutionFolder($buildDirName)
+		}
+	
+		# Add files to nuget folder
+		$projectItems = Get-Interface $buildProj.ProjectItems ([EnvDTE.ProjectItems])
+
+		$filesInDir = [IO.Directory]::GetFiles($buildDir)
+		foreach ($fileName in $filesInDir) {
+			Write-Host "Adding $fileName to solution"
+			$projectItems.AddFromFile($fileName)
+		}
+	} 
+	catch {
+		Write-Error "Failed to add the '\.nuget\Fosol.NuGetWrapper.[version]\' folder and corresponding files to the solution."
 	}
 }
 
@@ -105,8 +107,7 @@ function Add-NuSpec {
 }
 
 function Main {
-	$buildDir = Add-BuildFolder $project
-	Update-Solution $buildDir
+	Add-NuGetFolderToSolution
 	Add-ProjectHelper $project.Name
 	Add-NuSpec $project.Name
 	Write-Host "Don't forget to commit the .nuget folder"
