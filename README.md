@@ -76,8 +76,8 @@ The item group variables provide a way to control what files are included in the
     
     Variable Name           Default Value                   Description
     `````````````           `````````````                   ```````````
+    NuGetBuild												The file(s) that will be included in the package "build" folder.
     NuGetContent                                            The file(s) that will be included in the package "content" folder.
-    NuGetController                                         The file(s) that will be included in the package "content\controller" folder.
     NuGetLib                $(TargetPath)                   The file(s) that will be included in the package "lib" folder.
     NuGetTool               $(TargetPath)                   The file(s) that will be included in the package "tools" folder.
 
