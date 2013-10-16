@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>$id$</id>
     <version>$version$</version>
+    <title>Fosol NuGet Wrapper</title>
     <authors>Jeremy Foster</authors>
-    <description>Fosol Solutions NuGet build tools.</description>
+    <owners>Fosol Solutions</owners>
+    <description>Provides a simple way to convert your project into a NuGet package automatically.</description>
+    <summary>If you have a project that you would like to convert into a NuGet package simply install Fosol.NuGetWrapper and compile your project. MSBuild will automatically create a 'Package' folder within your build target folder which will contain your NuGet package.</summary>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright (c) 2013 Fosol Solutions</copyright>
     <language>en-US</language>
-    <projectUrl>http://www.fosol.ca/nugetwrapper</projectUrl>
-    <licenseUrl>http://www.fosol.ca/nugetwrapper/license</licenseUrl>
-    <tags>Fosol NuGet Wrapper</tags>
+    <projectUrl>https://github.com/Fosol/Fosol.NuGetWrapper</projectUrl>
+    <licenseUrl>https://github.com/Fosol/Fosol.NuGetWrapper/wiki/License</licenseUrl>
+    <tags>Fosol NuGet Wrapper MSBuild</tags>
   </metadata>
   <files>
     <file src="Tools\README.md" target="tools\Fosol.NuGetWrapper.README.md" />

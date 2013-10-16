@@ -1,7 +1,7 @@
 # Fosol.NuGetWrapper
-Fosol.NuGetWrapper provides a way for other solutions/projects to automatically build a NuGet package.
+Fosol.NuGetWrapper provides a way for any project to automatically build its own NuGet package.
 
-If you have a project that you would like to convert into a NuGet package simply install the Fosol.NuGetWrapper package and compile your project.
+If you have a project that you would like to convert into a NuGet package install Fosol.NuGetWrapper and compile your project.
 MSBuild will automatically create a 'Package' folder within your build target folder which will contain your NuGet package.
 
 The default package created for your project will only contain your output target.
