@@ -1,6 +1,4 @@
 # Fosol.NuGetWrapper
-This solution creates a the NuGet package Fosol.NuGetWrapper.
-
 Fosol.NuGetWrapper provides a way for other solutions/projects to automatically build a NuGet package.
 
 If you have a project that you would like to convert into a NuGet package simply install the Fosol.NuGetWrapper package and compile your project.
@@ -16,18 +14,18 @@ Both these files should reside in your project root folder.
 Refer to the Configuration section below before updating the "[projectName].nuspec" configuraiton file.
 Refer to the Configuration section below before updating the "Fosol.NuGetWrapper.csproj" configuration file. 
 
+# Getting Started
+It's as simple as installing the Fosol.NuGetWrapper package and building your project.
+
 # Introduction
 After installing Fosol.NuGetWrapper you can build your project and it will generate a NuGet package in the targeted output folder.
 
 The process Fosol.NuGetWrapper follows to create your package is as follows;
-1. Create a 'Package' folder in the target output directory
-2. Create appropriate folders within the 'Package' folder (i.e. content, lib and tools)
+1. Creates a 'Package' folder in the target output directory
+2. Creates appropriate folders within the 'Package' folder (i.e. content, lib and tools)
 3. Copy files from target output folder into the 'Package' folder if you have configured them to be included
 4. Generate a nuspec file for the package based on your default "[projectName].nuspec" configuration file.  This uses the XSLT transform feature.
 5. Build a NuGet package and place it in the 'Package' folder
-
-# Getting Started
-For a basic project it's as simple as installing the Fosol.NuGetWrapper package and building your project.
 
 ### Package Manager Console Example
 1. Open your solution/project in Visual Studio
