@@ -25,7 +25,7 @@
           <xsl:value-of select="$version"/>
         </xsl:copy>
       </xsl:when>
-      <xsl:when test="current()[name()='title' and ($title!='' or text()='$title$')]">
+      <xsl:when test="current()[name()='title' and (text()='' or text()='$title$') and ($title!='')]">
         <xsl:copy>
           <xsl:value-of select="$title"/>
         </xsl:copy>
