@@ -8,7 +8,7 @@
     <owners>Fosol Solutions</owners>
     <description>Provides a simple way to convert your project into a NuGet package automatically.</description>
     <summary>If you have a project that you would like to convert into a NuGet package simply install Fosol.NuGetWrapper and compile your project. MSBuild will automatically create a 'Package' folder within your build target folder which will contain your NuGet package.</summary>
-    <releaseNotes></releaseNotes>
+    <releaseNotes>Fixed a number of bugs in the first upload.  This build will work correctly.</releaseNotes>
     <copyright>Copyright (c) 2013 Fosol Solutions</copyright>
     <language>en-US</language>
     <projectUrl>https://github.com/Fosol/Fosol.NuGetWrapper</projectUrl>
