@@ -32,7 +32,7 @@
   -->
 
   <PropertyGroup>
-    <NuGetExtensionsDir>$(SolutionDir).nuget\</NuGetExtensionsDir>
+    <NuGetExtensionsDir>$(SolutionDir).nuget\Fosol.NuGetWrapper\</NuGetExtensionsDir>
   </PropertyGroup>
-  <Import Project="$(NuGetExtensionsDir)Fosol.MSBuild.NuGet.targets" Condition="Exists('$(NuGetExtensionsDir)Fosol.MSBuild.NuGet.targets')"/>
+  <Import Project="$(NuGetExtensionsDir)Fosol.NuGetWrapper.targets" Condition="Exists('$(NuGetExtensionsDir)Fosol.NuGetWrapper.targets')"/>
 </Project>
