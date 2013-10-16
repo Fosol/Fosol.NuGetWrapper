@@ -6,8 +6,8 @@ param($installPath, $toolsPath, $package, $project)
 
 Write-Host ("{0}{1}" -f "Running Install.ps1 for ", $package)
 
-.(Join-Path $toolsPath Fosol.NuGetWrapper.Props.ps1)
 Import-Module (Join-Path $toolsPath Fosol.NuGetWrapper.psd1)
+.(Join-Path $toolsPath Fosol.NuGetWrapper.Props.ps1)
 
 # Create a .nuget folder and a Fosol.NuGetWrapper.[version] folder.
 # Copy the files into it.
@@ -107,9 +107,11 @@ function Add-NuSpec {
 }
 
 function Main {
+	Write-Host "Starting installation process."
 	Add-NuGetFolderToSolution
 	Add-ProjectHelper $project.Name
 	Add-NuSpec $project.Name
+	Write-Host "Completed installation process."
 	Write-Host "Don't forget to commit the .nuget folder"
 }
 

@@ -7,7 +7,7 @@ $buildFiles = @(
 
 $packageVersion = Format-PackageVersion $package
 $buildRootDirName = ".nuget"
-$buildDirName = "$($package.Id).$($packageVersion)"
 $buildRootDir = (Join-Path(Get-SolutionDirectory) $buildRootDirName)
+$buildDirName = "$($package.Id)"
 $buildDir = (Join-Path $buildRootDir $buildDirName)
 $projectHelperFileName = "Fosol.NuGetWrapper.csproj"

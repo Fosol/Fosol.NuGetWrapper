@@ -1,7 +1,7 @@
 # Check if the directory is empty.
 function Get-IsDirectoryEmpty($path) {
-	$dirInfo = Get-ChildItem $path | Measure-Object
-	if ($dirInfo.Count -eq 0) {
+	$items = Get-ChildItem $path -Force
+	if ($items.Count -eq 0) {
 		return $true
 	}
 
