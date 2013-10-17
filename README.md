@@ -21,6 +21,7 @@ It's as simple as installing the Fosol.NuGetWrapper package and building your pr
 After installing Fosol.NuGetWrapper you can build your project and it will generate a NuGet package in the targeted output folder.
 
 The process Fosol.NuGetWrapper follows to create your package is as follows;
+
 1. Creates a 'Package' folder in the target output directory
 2. Creates appropriate folders within the 'Package' folder (i.e. content, lib and tools)
 3. Copy files from target output folder into the 'Package' folder if you have configured them to be included
