@@ -42,14 +42,14 @@ The process Fosol.NuGetWrapper follows to create your package is as follows;
 Now build your project and it will create a package in your target output directory (i.e. \bin\debug\Package\)
 
 # Configuration
-There are two configuration files that need to be updated if the NuGet package you wish to create requires addition files and information.
-The first file is a project file named "Fosol.NuGetWrapper.csproj". 
-it provides a way to dynamically control what files are included in the build output.
+There are two configuration files that need to be updated if your project requires addition files and information.
+The first file is a project file in your root project folder named "Fosol.NuGetWrapper.csproj". 
+It provides a way to dynamically control what files are included in the build output.
 It also provides a way to dynamically configure the nuspec configuration file.
-The second file is the NuGet nuspect file named after your project "[projectName].nuspec".
+The second file is a NuSpec file named after your project, which is also in your root project folder ("[projectName].nuspec").
 
 ## Project Configuration
-The project configuration for the automated Fosol.NuGetWrapper allows you to edit the build information without being forced to unload your project and edit your own project file.
+The project configuration provides a nice way to edit the build information without being forced to unload your project and edit your own project file.
 The "Fosol.NuGetWrapper.csproj" file is imported into your project when you install the Fosol.NuGetWrapper package.
 This project configuration file provides a way to select what files are included in your package and also provides a way to dynamically update the nuspec file.
 
@@ -72,6 +72,7 @@ The property group variables provide a way to control the build process; where f
     
 ### ItemGroup Section
 The item group variables provide a way to control what files are included in the NuGet package that will be built.
+* Don't forget that the base path for all files is the project root directory.
     
     Variable Name           Default Value                   Description
     `````````````           `````````````                   ```````````
@@ -84,6 +85,6 @@ The item group variables provide a way to control what files are included in the
 ## NuSpec Configuration
 Fosol.NuGetWrapper automatically generates a default nuspec configuration file for your project.
 It will be given the same name as your project "[projectName].nuspec" and will reside in the root project folder.
-This nuspec configuration file is the template which is used to generate the nuspec file that will be send to your package output folder when you build your project.
+This nuspec configuration file is a default template which is used to generate the nuspec file that will be used to create your package.
 When updating this file you will need to remember that the file locations will be relative to package output folder (see NuGetOutDir).
 Refer to <http://docs.nuget.org/docs/reference/nuspec-reference> for more information on the nuspec configuration file.
