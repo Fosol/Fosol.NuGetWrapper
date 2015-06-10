@@ -17,22 +17,28 @@ function Remove-NuGetFolderFromSolution {
 		# Remove each installed file from the solution.
 		foreach ($buildFile in $buildFiles) {
 			$projectItem = $buildProject.ProjectItems | Where { $_.Name -eq $buildFile }
+			Write-Host "Removing Project Item: $projectItem"
 			Remove-ProjectItem($projectItem)
 		}
 
 		# Only remove the folder if it's empty.  If it has other files it means it belongs to something else.
 		if ((Get-IsDirectoryEmpty($buildDir)) -eq $true) {
+			Write-Host "Removing Project: $buildProject"
 			Remove-Project($buildProject)
+			Write-Host "Removing Item: $buildDir"
 			Remove-Item $buildDir
 		}
 
 		# Only remove the .nuget folder if it's empty.  If it has other files it means it belongs to something else.
 		if ((Get-IsDirectoryEmpty($buildRootDir)) -eq $true) {
+			Write-Host "Removing Item: $buildRootDir"
 			Remove-Item $buildRootDir
 		}
 	}
 	catch {
-		Write-Error "Failed to remove '\.nuget\Fosol.NuGetWrapper\' folder and related files from the solution."
+		$errorMessage = $_.Exception.Message
+		$itemName = $_.Exception.ItemName
+		Write-Error "An error occured while attempting to remove '$itemName'. Error: $errorMessage"
 	}
 }
 
@@ -49,6 +55,7 @@ function Remove-NuSpecFile {
 		$item = $project.ProjectItems | Where { $_.Name -eq "$($project.Name).nuspec" }
 
 		if ($item) {
+			Write-Host "Removing Item: $item"
 			Remove-ProjectItem($item)
 		}
 	}
@@ -76,6 +83,9 @@ function Remove-ProjectHelper {
 				 Write-Host "Project $($project.Name) has been updated to no longer import '$projectHelperFileName'"
             }
             catch {
+				$errorMessage = $_.Exception.Message
+				$itemName = $_.Exception.ItemName
+				Write-Error "An error occured while attempting to remove '$itemName'. Error: $errorMessage"
                 Write-Warning "Failed to remove import '$projectHelperFileName' to $($project.Name)"
             }
         }

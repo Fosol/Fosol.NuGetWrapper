@@ -1,4 +1,4 @@
-# Fosol.NuGetWrapper
+# Fosol.NuGetWrapper 1.0.0.2
 Fosol.NuGetWrapper provides a way for any project to automatically build its own NuGet package.
 
 If you have a project that you would like to convert into a NuGet package install Fosol.NuGetWrapper and compile your project.

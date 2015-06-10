@@ -29,7 +29,11 @@ function Add-NuGetFolderToSolution {
 		# Create the solution folder.
 		$buildProj = $solution.Projects | Where {$_.ProjectName -eq $buildDirName}
 		if (!$buildProj) {
+			Write-Host "Adding solution folder '$buildDirName'"
 			$buildProj = $solution.AddSolutionFolder($buildDirName)
+		}
+		else {
+			Write-Host ("Solution folder '$buildDirName' already exists.")
 		}
 	
 		# Add files to nuget folder
@@ -38,11 +42,14 @@ function Add-NuGetFolderToSolution {
 		$filesInDir = [IO.Directory]::GetFiles($buildDir)
 		foreach ($fileName in $filesInDir) {
 			Write-Host "Adding $fileName to solution"
-			$projectItems.AddFromFile($fileName)
+			$buildProj.ProjectItems.AddFromFile($fileName)
+			#$projectItems.AddFromFile($fileName)
 		}
 	} 
 	catch {
-		Write-Error "Failed to add the '\.nuget\Fosol.NuGetWrapper.[version]\' folder and corresponding files to the solution."
+		$errorMessage = $_.Exception.Message
+		$itemName = $_.Exception.ItemName
+		Write-Error "An error occured while attempting to add '$itemName'. Error: $errorMessage"
 	}
 }
 
@@ -68,6 +75,9 @@ function Add-ProjectHelper {
 				 Write-Host "Project $($project.Name) has been updated to import '$projectHelperFileName'"
             }
             catch {
+				$errorMessage = $_.Exception.Message
+				$itemName = $_.Exception.ItemName
+				Write-Error "An error occured while attempting to add '$itemName'. Error: $errorMessage"
                 Write-Warning "Failed to add import '$projectHelperFileName' to $($project.Name)"
             }
         }
@@ -100,6 +110,9 @@ function Add-NuSpec {
 				Write-Host "Adding $fileName to project $($project.Name)"
 				$project.ProjectItems.AddFromFile($filePath)
 			} catch {
+				$errorMessage = $_.Exception.Message
+				$itemName = $_.Exception.ItemName
+				Write-Error "An error occured while attempting to add '$itemName'. Error: $errorMessage"
 				Write-Warning "Failed to add nuspec file to $($project.Name)"
 			}
 		}

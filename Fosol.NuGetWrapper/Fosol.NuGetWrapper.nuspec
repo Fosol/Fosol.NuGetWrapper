@@ -13,7 +13,7 @@
     <language>en-US</language>
     <projectUrl>https://github.com/Fosol/Fosol.NuGetWrapper</projectUrl>
     <licenseUrl>https://github.com/Fosol/Fosol.NuGetWrapper/wiki/License</licenseUrl>
-    <tags>Fosol NuGet Wrapper MSBuild</tags>
+    <tags>NuGet Wrapper MSBuild Automatic Package Publish Fosol</tags>
   </metadata>
   <files>
     <file src="Content\Fosol.NuGetWrapper.csproj" target="content\Fosol.NuGetWrapper.csproj" />
