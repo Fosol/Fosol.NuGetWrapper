@@ -6,12 +6,12 @@ using System.Resources;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Fosol.MSBuild")]
-[assembly: AssemblyDescription("MSBuild utilities, targets and tasks.")]
+[assembly: AssemblyTitle("Fosol.NuGetWrapper")]
+[assembly: AssemblyDescription("Fosol.NuGetWrapper provides a way to convert a project into a NuGet package.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Fosol Solutions")]
-[assembly: AssemblyProduct("Fosol.MSBuild")]
-[assembly: AssemblyCopyright("Fosol Solutions Copyright 2013")]
+[assembly: AssemblyProduct("Fosol NuGetWrapper")]
+[assembly: AssemblyCopyright("Fosol Solutions Copyright 2013-2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -30,6 +30,6 @@ using System.Resources;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("1.0.0.1")]
-[assembly: AssemblyFileVersion("1.0.0.1")]
+[assembly: AssemblyVersion("1.0.0.2")]
+[assembly: AssemblyFileVersion("1.0.0.2")]
 [assembly: NeutralResourcesLanguageAttribute("en-US")]
