@@ -56,17 +56,13 @@
     <Content Include="Tools\Uninstall.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Tools\Fosol.Core.MSBuild.psm1" />
+    <None Include="Tools\Fosol.Core.psm1" />
     <None Include="Tools\Fosol.NuGetWrapper.Props.ps1" />
     <None Include="Tools\Fosol.NuGetWrapper.psm1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Tools\Fosol.Common.MSBuild.psm1">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Tools\Fosol.NuGetWrapper.psd1" />
-    <None Include="Tools\Fosol.Common.psm1">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Solution\Fosol.NuGetWrapper.xslt">

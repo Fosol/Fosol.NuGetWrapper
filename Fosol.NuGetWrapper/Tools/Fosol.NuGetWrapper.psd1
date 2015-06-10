@@ -63,7 +63,7 @@ DotNetFrameworkVersion = '4.0'
 # FormatsToProcess = @()
 
 # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
-NestedModules = @('Fosol.Common.psm1', 'Fosol.Common.MSBuild.psm1')
+NestedModules = @('Fosol.Core.psm1', 'Fosol.Core.MSBuild.psm1')
 
 # Functions to export from this module
 FunctionsToExport = '*'

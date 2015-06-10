@@ -23,8 +23,8 @@
     <file src="Tools\Fosol.NuGetWrapper.Props.ps1" target="tools\Fosol.NuGetWrapper.Props.ps1" />
     <file src="Tools\Fosol.NuGetWrapper.psd1" target="tools\Fosol.NuGetWrapper.psd1" />
     <file src="Tools\Fosol.NuGetWrapper.psm1" target="tools\Fosol.NuGetWrapper.psm1" />
-    <file src="Tools\Fosol.Common.psm1" target="tools\Fosol.Common.psm1" />
-    <file src="Tools\Fosol.Common.MSBuild.psm1" target="tools\Fosol.Common.MSBuild.psm1" />
+    <file src="Tools\Fosol.Core.psm1" target="tools\Fosol.Core.psm1" />
+    <file src="Tools\Fosol.Core.MSBuild.psm1" target="tools\Fosol.Core.MSBuild.psm1" />
     <file src="Tools\Init.ps1" target="tools\Init.ps1" />
     <file src="Tools\Install.ps1" target="tools\Install.ps1" />
     <file src="Tools\Uninstall.ps1" target="tools\Uninstall.ps1" />
