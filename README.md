@@ -72,7 +72,9 @@ The property group variables provide a way to control the build process; where f
     
 ### ItemGroup Section
 The item group variables provide a way to control what files are included in the NuGet package that will be built.
-* Don't forget that the base path for all files is the project root directory.
+
+** Don't forget that the base path for all files is the project root directory.
+
     
     Variable Name           Default Value                   Description
     `````````````           `````````````                   ```````````
