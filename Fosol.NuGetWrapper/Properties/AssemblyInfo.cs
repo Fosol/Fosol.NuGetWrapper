@@ -6,11 +6,11 @@ using System.Resources;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Fosol.NuGetWrapper")]
+[assembly: AssemblyTitle("Fosol NuGet Wrapper")]
 [assembly: AssemblyDescription("Fosol.NuGetWrapper provides a way to convert a project into a NuGet package.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Fosol Solutions")]
-[assembly: AssemblyProduct("Fosol NuGetWrapper")]
+[assembly: AssemblyProduct("Fosol NuGet Wrapper")]
 [assembly: AssemblyCopyright("Fosol Solutions Copyright 2013-2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

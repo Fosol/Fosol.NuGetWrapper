@@ -162,13 +162,13 @@
       <NuGetOutput>$(NuGetOutDir)$(NuGetSpecId).$(NuGetSpecVersion)$(NuGetPackageExt)</NuGetOutput>
     </PropertyGroup>
 
-    <Message Text="NuGetSpecId $(NuGetSpecId)"/>
-    <Message Text="NuGetSpecVersion $(NuGetSpecVersion)"/>
-    <Message Text="NuGetOutDir $(NuGetOutDir)"/>
-    <Message Text="NuGetSpecInput $(NuGetSpecInput)"/>
-    <Message Text="NuGetSpecInputPath $(NuGetSpecInputPath)"/>
-    <Message Text="NuGetSpecOutput $(NuGetSpecOutput)"/>
-    <Message Text="NuGetSpecOutputPath $(NuGetSpecOutputPath)"/>
+    <Message Text="NuGetSpecId: $(NuGetSpecId)"/>
+    <Message Text="NuGetSpecVersion: $(NuGetSpecVersion)"/>
+    <Message Text="NuGetOutDir: $(NuGetOutDir)"/>
+    <Message Text="NuGetSpecInput: $(NuGetSpecInput)"/>
+    <Message Text="NuGetSpecInputPath: $(NuGetSpecInputPath)"/>
+    <Message Text="NuGetSpecOutput: $(NuGetSpecOutput)"/>
+    <Message Text="NuGetSpecOutputPath: $(NuGetSpecOutputPath)"/>
   </Target>
 
   <!-- Clean up the files in the NuGet package directory. -->
@@ -178,6 +178,7 @@
   </ItemGroup>
   
   <Target Name="NuGetClean" AfterTargets="CoreClean">
+    <Message Text="Cleaning file in '$(NuGetOutDir)'"/>
     <Delete Files="@(FilesToDelete)"/>
     <!--<RemoveDir Directories="@(DirsToClean)"/>-->
   </Target>

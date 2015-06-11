@@ -6,17 +6,19 @@
     <title>Fosol NuGet Wrapper</title>
     <authors>Jeremy Foster</authors>
     <owners>Fosol Solutions</owners>
-    <description>Provides a simple way to convert your project into a NuGet package automatically.</description>
-    <summary>If you have a project that you would like to convert into a NuGet package simply install Fosol.NuGetWrapper and compile your project. MSBuild will automatically create a 'Package' folder within your build target folder which will contain your NuGet package.</summary>
+    <description>Convert a project into a NuGet package.  Install Fosol.NuGetWrapper and compile your project. MSBuild will automatically create a 'Package' folder within your build target folder which will contain your NuGet package.</description>
+    <summary>Fosol NuGet Wrapper automatically creates a NuGet package for your project.</summary>
     <releaseNotes>Fixed a number of bugs in the first upload.  This build will work correctly.</releaseNotes>
     <copyright>Copyright (c) 2013-2015 Fosol Solutions</copyright>
     <language>en-US</language>
     <projectUrl>https://github.com/Fosol/Fosol.NuGetWrapper</projectUrl>
     <licenseUrl>https://github.com/Fosol/Fosol.NuGetWrapper/wiki/License</licenseUrl>
     <tags>NuGet Wrapper MSBuild Automatic Package Publish Fosol</tags>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
   </metadata>
   <files>
     <file src="Content\Fosol.NuGetWrapper.csproj" target="content\Fosol.NuGetWrapper.csproj" />
+    <file src="Tools\README.md" target="d" />
     <file src="Tools\README.md" target="tools\Fosol.NuGetWrapper.README.md" />
     <file src="Tools\Fosol.NuGetWrapper.Targets" target="tools\Fosol.NuGetWrapper.Targets" />
     <file src="Tools\Fosol.NuGetWrapper.xslt" target="tools\Fosol.NuGetWrapper.xslt" />

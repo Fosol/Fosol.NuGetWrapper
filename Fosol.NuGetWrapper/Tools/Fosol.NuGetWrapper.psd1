@@ -39,7 +39,7 @@ PowerShellHostName = 'Package Manager Host'
 PowerShellHostVersion = '1.2'
 
 # Minimum version of the .NET Framework required by this module
-DotNetFrameworkVersion = '4.0'
+DotNetFrameworkVersion = '4.6'
 
 # Minimum version of the common language runtime (CLR) required by this module
 # CLRVersion = ''
