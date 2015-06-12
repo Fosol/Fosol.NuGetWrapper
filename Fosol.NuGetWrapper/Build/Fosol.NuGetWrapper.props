@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0" DefaultTargets="NuGetBuild">
+  <!--
+    PropertyGroup Section
+    The property group variables provide a way to control the build process; where files are copied and what values are used in the nuspec configuration.
+    
+    Variable Name			      Default Value					          Description    
+    `````````````           `````````````                   ```````````
+	  NuGetWrapperId			    Fosol.NuGetWrapper				      Name of the Fosol.NuGetWrapper package.
+    NuGetSpecXsltName       Fosol.NuGetWrapper.xslt         File used to transform the default nuspec file in your project.
+
+	  NuGetSpecExt			      .nuspec							            Extension for nuget spec file.
+	  NuGetPackageExt			    .nupkg							            Extension for nuget package file.
+    
+    NuGetSpecId             %(Asssembly.Name)               The id of your NuGet package.  If no value specified it will use your nuspec file value.
+    NuGetSpecVersion        %(Asssembly.Version)            The version of your NuGet package.  If no value specified it will use your nuspec file value.
+    NuGetSpecTitle          $(ProjectName)                  The title of your NuGet package.  If no value specified it will use your nuspec file value.
+    NuGetSpecAuthors                                        The authors of your NuGet package.  If no value specified it will use your nuspec file value.
+    NuGetSpecOwners                                         The owners of your NuGet package.  If no value specified it will use your nuspec file value.
+    NuGetSpecDescription                                    The description of your NuGet package.  If no value specified it will use your nuspec file value.
+	
+    NuGetOutDir             $(OutDir)Package\               Location of output directory that will contain the files which will be included in your package.
+    
+    
+    ItemGroup Section
+    The item group variables provide a way to control what files are included in the NuGet package that will be built.
+    
+    Variable Name           Default Value							            Description
+    `````````````           `````````````							            ```````````
+    NuGetBuild				      $(OutDir)Build\**\*.*					        The file(s) that will be included in the package "build" folder.
+    NuGetContent            $(OutDir)Content\**\*.*					      The file(s) that will be included in the package "content" folder.
+    NuGetLib                $(TargetPath);$(OutDir)Lib\**\*.*		  The file(s) that will be included in the package "lib" folder.
+    NuGetTools              $(TargetPath);$(OutDir)Tools\**\*.*		The file(s) that will be included in the package "tools" folder.
+  -->
+  <PropertyGroup>
+    <!-- Directory containing the Fosol.NuGetWrapper.xslt file. -->
+    <NuGetWrapperId Condition=" '$(NuGetWrapperId)' == '' ">Fosol.NuGetWrapper</NuGetWrapperId>
+    <NuGetSpecXsltName Condition=" '$(NuGetSpecXsltName)' == '' ">$(NuGetWrapperId).xslt</NuGetSpecXsltName>
+
+    <NuGetSpecExt>.nuspec</NuGetSpecExt>
+    <NuGetPackageExt>.nupkg</NuGetPackageExt>
+
+    <!-- NuGet Spec file property values. -->
+    <NuGetSpecId Condition=" '$(NuGetSpecId)' == '' "></NuGetSpecId>
+    <NuGetSpecVersion Condition=" '$(NuGetSpecVersion)' == '' "></NuGetSpecVersion>
+    <NuGetSpecTitle Condition=" '$(NuGetSpecTitle)' == '' ">$(ProjectName)</NuGetSpecTitle>
+    <NuGetSpecAuthors Condition=" '$(NuGetSpecAuthors)' == '' "></NuGetSpecAuthors>
+    <NuGetSpecOwners Condition=" '$(NuGetSpecOwners)' == '' ">$(NuGetSpecAuthors)</NuGetSpecOwners>
+    <NuGetSpecDescription Condition=" '$(NuGetSpecDescription)' == '' "></NuGetSpecDescription>
+  </PropertyGroup>
+</Project>
+

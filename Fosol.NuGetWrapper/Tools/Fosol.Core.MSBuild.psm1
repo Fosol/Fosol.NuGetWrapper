@@ -56,6 +56,7 @@ function Get-MSBuildProject {
     }
 }
 
+# Add an import with the specified path into the project file.
 function Add-Import {
     param(
         [parameter(Position = 0, Mandatory = $true)][string]$Path,
@@ -70,6 +71,7 @@ function Add-Import {
     }
 }
 
+# Remove an import with the specified path from the project file.
 function Remove-Import {
 	param(
         [parameter(Position = 0, Mandatory = $true)][string]$Path,

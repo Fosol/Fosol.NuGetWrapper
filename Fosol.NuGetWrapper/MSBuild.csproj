@@ -1,18 +1,31 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0" DefaultTargets="NuGetBuild">
-  <PropertyGroup>
-    <NuGetExtensionsDir>$(ProjectDir)Solution\</NuGetExtensionsDir>
-    <NuGetSpecId>Fosol.NuGetWrapper</NuGetSpecId>
-  </PropertyGroup>
-  <ItemGroup>
-    <NuGetBuild Include="Build\**\*.*"/>
-    <NuGetContent Include="Content\**\*.*"/>
-    <NuGetLib Include="Lib\**\*.*"/>
-    <NuGetTool Include="Solution\**\*.*"/>
-    <NuGetTool Include="Tools\**\*.*"/>
-    <NuGetTool Include="$(SolutionDir)README.md"/>
-  </ItemGroup>
-  <Import Project="$(NuGetExtensionsDir)Fosol.NuGetWrapper.targets" Condition="Exists('$(NuGetExtensionsDir)Fosol.NuGetWrapper.targets')"/>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="Build\Fosol.NuGetWrapper.props"/>
+  <Import Project="Build\Fosol.NuGetWrapper.targets"/>
+  
+  <Target Name="CopyReadMe" BeforeTargets="NuGetBuild">
+    <Exec Command="xcopy &quot;$(SolutionDir)README.md&quot; &quot;$(OutDir)Content\$(NuGetWrapperId)\&quot; /y" />
+  </Target>
+
+  <!-- This provides a way to add or remove files from the package. -->
+  <Target Name="NuGetSetup" BeforeTargets="NuGetBuild">
+    <Message Text="Setting up the NuGet Package files."/>
+    <ItemGroup>
+      <NuGetLib Remove="$(TargetPath)"/>
+    </ItemGroup>
+    <Message Text="NuGet Build; @(NuGetBuild)"/>
+    <Message Text="NuGet Content; @(NuGetContent)"/>
+    <Message Text="NuGet Libs; @(NuGetLib)"/>
+    <Message Text="NuGet Tools; @(NuGetTools)"/>
+  </Target>
+
+  <!-- Create NuGet Package Spec File. -->
+  <Target Name="NuGetSpec" AfterTargets="NuGetPrepare" DependsOnTargets="NuGetPrepare">
+    <PropertyGroup>
+      <NuGetPackageXsltPath>$(NuGetOutDir)Tools\$(NuGetSpecXsltName)</NuGetPackageXsltPath>
+    </PropertyGroup>
+  </Target>
+  
   <Target Name="CopyPackage" AfterTargets="AfterBuild">
     <Exec Condition="$(ComputerName) == 'PDJMFOSTER2'" 
           Command="xcopy &quot;$(NuGetOutput)&quot; &quot;C:\Users\jmfoster\SkyDrive\Fosol Solutions\Libraries\NuGetFeed&quot; /y" />

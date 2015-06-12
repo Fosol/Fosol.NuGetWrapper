@@ -1,22 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0" DefaultTargets="NuGetBuild">
-
   <PropertyGroup>
-    <!-- Directory containing the NuGet.xslt file. -->
-    <NuGetExtensionsDir Condition=" '$(NuGetExtensionsDir)' == '' ">$(SolutionDir).nuget\</NuGetExtensionsDir>
-    <NuGetSpecXsltName Condition=" '$(NuGetSpecXsltName)' == '' ">Fosol.NuGetWrapper.xslt</NuGetSpecXsltName>
-    
-    <NuGetSpecExt>.nuspec</NuGetSpecExt>
-    <NuGetPackageExt>.nupkg</NuGetPackageExt>
-
-    <!-- NuGet Spec file property values. -->
-    <NuGetSpecId Condition=" '$(NuGetSpecId)' == '' "></NuGetSpecId>
-    <NuGetSpecVersion Condition=" '$(NuGetSpecVersion)' == '' "></NuGetSpecVersion>
-    <NuGetSpecTitle Condition=" '$(NuGetSpecTitle)' == '' ">$(ProjectName)</NuGetSpecTitle>
-    <NuGetSpecAuthors Condition=" '$(NuGetSpecAuthors)' == '' "></NuGetSpecAuthors>
-    <NuGetSpecOwners Condition=" '$(NuGetSpecOwners)' == '' ">$(NuGetSpecAuthors)</NuGetSpecOwners>
-    <NuGetSpecDescription Condition=" '$(NuGetSpecDescription)' == '' "></NuGetSpecDescription>
-
     <!-- Directory location that the NuGet Package will be built. -->
     <NuGetOutDir Condition=" '$(NuGetOutDir)' == '' ">$(OutDir)Package\</NuGetOutDir>
   </PropertyGroup>
@@ -124,29 +108,49 @@
     </When>    
   </Choose>
 
+  <!-- Clean up the files in the NuGet package directory. -->
+  <ItemGroup>
+    <FilesToDelete Include="$(NuGetOutDir)**\*.*"/>
+    <DirsToClean Include="$(OutDir)Package"/>
+  </ItemGroup>
+
+  <Target Name="NuGetClean" AfterTargets="CoreClean">
+    <Message Text="Cleaning files in '$(NuGetOutDir)'"/>
+    <Delete Files="@(FilesToDelete)"/>
+    <!--<RemoveDir Directories="@(DirsToClean)"/>-->
+  </Target>
+
   <!-- By default it will include the target assembly created by the build. -->
-  <ItemGroup Condition=" '@(NuGetLib)' == '' And '@(NuGetTool)' == '' And '@(NuGetContent)' == '' And '$(OutputType)' == 'Library' ">
+  <ItemGroup Condition="'$(OutputType)' == 'Library'">
     <NuGetLib Include="$(TargetPath)"/>
   </ItemGroup>
-  <ItemGroup Condition=" '@(NuGetLib)' == '' And '@(NuGetTool)' == '' And '@(NuGetContent)' == '' And '$(OutputType)' == 'Exe' ">
-    <NuGetTool Include="$(TargetPath)"/>
+  <ItemGroup Condition="'$(OutputType)' == 'Exe' ">
+    <NuGetTools Include="$(TargetPath)"/>
   </ItemGroup>
-  <ItemGroup Condition=" '@(NuGetLib)' == '' And '@(NuGetTool)' == '' And '@(NuGetContent)' == '' And '$(OutputType)' == 'Winexe' ">
-    <NuGetTool Include="$(TargetPath)"/>
+  <ItemGroup Condition="'$(OutputType)' == 'Winexe' ">
+    <NuGetTools Include="$(TargetPath)"/>
   </ItemGroup>
 
   <!-- Build a NuGet package based on the nuspec file in the project. -->
   <Target Name="NuGetBuild" AfterTargets="CopyFilesToOutputDirectory">
+    <ItemGroup>
+      <NuGetBuild Include="$(OutDir)Build\**\*.*"/>
+      <NuGetContent Include="$(OutDir)Content\**\*.*"/>
+      <NuGetLib Include="$(OutDir)Lib\**\*.*"/>
+      <NuGetTools Include="$(OutDir)Tools\**\*.*"/>
+    </ItemGroup>
+    
     <Message Text="Build NuGet Package for $(TargetFrameworkIdentifier) $(TargetFrameworkVersion) $(TargetFrameworkProfile)"/>
+    <Message Text="OutDir: $(OutDir)"/>
     <Message Text="NuGet Build; @(NuGetBuild)"/>
     <Message Text="NuGet Content; @(NuGetContent)"/>
     <Message Text="NuGet Libs; @(NuGetLib)"/>
-    <Message Text="NuGet Tools; @(NuGetTool)"/>
-    <CallTarget Targets="NuGetInit;NuGetClean;NuGetPrepare;NuGetPack"/>
+    <Message Text="NuGet Tools; @(NuGetTools)"/>
+    <!--<CallTarget Targets="NuGetInit;NuGetClean;NuGetPrepare;NuGetSpec;NuGetPack"/>-->
   </Target>
 
   <!-- Initialize information from the assembly. -->
-  <Target Name="NuGetInit">
+  <Target Name="NuGetInit" AfterTargets="NuGetBuild" DependsOnTargets="NuGetBuild">
     <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
       <Output TaskParameter="Assemblies" ItemName="Info" />
     </GetAssemblyIdentity>
@@ -171,37 +175,47 @@
     <Message Text="NuGetSpecOutputPath: $(NuGetSpecOutputPath)"/>
   </Target>
 
-  <!-- Clean up the files in the NuGet package directory. -->
-  <ItemGroup>
-    <FilesToDelete Include="$(NuGetOutDir)**\*.*"/>
-    <DirsToClean Include="$(OutDir)Package"/>
-  </ItemGroup>
-  
-  <Target Name="NuGetClean" AfterTargets="CoreClean">
-    <Message Text="Cleaning file in '$(NuGetOutDir)'"/>
-    <Delete Files="@(FilesToDelete)"/>
-    <!--<RemoveDir Directories="@(DirsToClean)"/>-->
-  </Target>
-
   <!-- Copy files from the build directory into the NuGet package directory. -->
-  <Target Name="NuGetPrepare">
-    <Message Text="Prepare NuGet Package"/>
+  <Target Name="NuGetPrepare" AfterTargets="NuGetInit" DependsOnTargets="NuGetInit">
+    <Message Text="Prepare NuGet Package: $(NuGetOutDir)"/>
     <MakeDir Directories="$(NuGetOutDir)"/>
     <MakeDir Condition=" '@(NuGetBuild)' != '' " Directories="$(NuGetOutDir)build\%(RecursiveDir)"/>
     <MakeDir Condition=" '@(NuGetContent)' != '' " Directories="$(NuGetOutDir)content\%(RecursiveDir)"/>
     <MakeDir Condition=" '@(NuGetLib)' != '' " Directories="$(NuGetOutDir)lib\"/>
-    <MakeDir Condition=" '@(NuGetTool)' != '' " Directories="$(NuGetOutDir)tools\%(RecursiveDir)"/>
+    <MakeDir Condition=" '@(NuGetTools)' != '' " Directories="$(NuGetOutDir)tools\%(RecursiveDir)"/>
 
     <Copy SourceFiles="@(NuGetBuild)" DestinationFolder="$(NuGetOutDir)build\%(RecursiveDir)"/>
     <Copy SourceFiles="@(NuGetContent)" DestinationFolder="$(NuGetOutDir)content\%(RecursiveDir)"/>
     <Copy SourceFiles="@(NuGetLib)" DestinationFolder="$(NuGetOutDir)lib\$(NuGetTargetFrameworkVersion)"/>
-    <Copy SourceFiles="@(NuGetTool)" DestinationFolder="$(NuGetOutDir)tools\%(RecursiveDir)"/>
+    <Copy SourceFiles="@(NuGetTools)" DestinationFolder="$(NuGetOutDir)tools\%(RecursiveDir)"/>
+  </Target>
+
+  <!-- Specify where the XSLT file is so that we can create a spec file. -->
+  <Target Name="NuGetSpec" AfterTargets="NuGetPrepare" DependsOnTargets="NuGetPrepare">
+    <ItemGroup>
+      <NuGetPackageXslt Include="$(SolutionDir)\packages\$(NuGetWrapperId).*\Tools\$(NuGetWrapperId).xslt"/>
+    </ItemGroup>
+    
+    <PropertyGroup>
+      <NuGetPackageXsltPath>%(NuGetPackageXslt.FullPath)</NuGetPackageXsltPath>
+    </PropertyGroup>
+  </Target>
+
+  <!-- Create NuGet Package Spec File. -->
+  <Target Name="NuGetBuildSpec" AfterTargets="NuGetSpec" DependsOnTargets="NuGetSpec">
+    <PropertyGroup>
+      <NuGetPackageBuild>@(NuGetBuild->'Build\%(FileName)%(Extension)')</NuGetPackageBuild>
+      <NuGetPackageContent>@(NuGetContent->'Content\%(FileName)%(Extension)')</NuGetPackageContent>
+      <NuGetPackageLib>@(NuGetLib->'Lib\%(FileName)%(Extension)')</NuGetPackageLib>
+      <NuGetPackageTools>@(NuGetTools->'Tools\%(FileName)%(Extension)')</NuGetPackageTools>
+    </PropertyGroup>
     
     <Message Text="Create NuGet Package Spec File"/>
+    <Message Text="NuGetPackageXslt: $(NuGetPackageXsltPath)"/>
     <!-- Transform the default NuGet spec file into a new one in the package directory. -->
-    <XslTransformation XmlInputPaths="$(NuGetSpecInputPath)" 
-                       XslInputPath="$(NuGetExtensionsDir)$(NuGetSpecXsltName)" 
-                       OutputPaths="$(NuGetSpecOutputPath)" 
+    <XslTransformation XmlInputPaths="$(NuGetSpecInputPath)"
+                       XslInputPath="$(NuGetPackageXsltPath)"
+                       OutputPaths="$(NuGetSpecOutputPath)"
                        Parameters="
                         &lt;Parameter Name='id' Value='$(NuGetSpecId)'/&gt;
                         &lt;Parameter Name='version' Value='$(NuGetSpecVersion)'/&gt;
@@ -209,11 +223,15 @@
                         &lt;Parameter Name='authors' Value='$(NuGetSpecAuthors)'/&gt;
                         &lt;Parameter Name='owners' Value='$(NuGetSpecOwners)'/&gt;
                         &lt;Parameter Name='description' Value='$(NuGetSpecDescription)'/&gt;
+                        &lt;Parameter Name='build' Value='$(NuGetPackageBuild)'/&gt;
+                        &lt;Parameter Name='content' Value='$(NuGetPackageContent)'/&gt;
+                        &lt;Parameter Name='lib' Value='$(NuGetPackageLib)'/&gt;
+                        &lt;Parameter Name='tools' Value='$(NuGetPackageTools)'/&gt;
                         "/>
   </Target>
 
   <!-- Create a NuGet Package based on the nuspec file created in the prior target. -->
-  <Target Name="NuGetPack">
+  <Target Name="NuGetPack" AfterTargets="NuGetBuildSpec" DependsOnTargets="NuGetBuildSpec">
     <Message Text="NuGetOutput $(NuGetOutput)"/>
     <Exec Command="nuget.exe pack &quot;$(NuGetSpecOutput)&quot; -Verbosity detailed -NonInteractive" WorkingDirectory="$(NuGetOutDir)"/>
   </Target>
