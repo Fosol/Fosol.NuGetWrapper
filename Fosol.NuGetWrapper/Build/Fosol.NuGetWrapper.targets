@@ -122,30 +122,31 @@
 
   <!-- By default it will include the target assembly created by the build. -->
   <ItemGroup Condition="'$(OutputType)' == 'Library'">
-    <NuGetLib Include="$(TargetPath)"/>
+    <OutputLibFiles Include="$(TargetPath)"/>
   </ItemGroup>
   <ItemGroup Condition="'$(OutputType)' == 'Exe' ">
-    <NuGetTools Include="$(TargetPath)"/>
+    <OutputToolsFiles Include="$(TargetPath)"/>
   </ItemGroup>
   <ItemGroup Condition="'$(OutputType)' == 'Winexe' ">
-    <NuGetTools Include="$(TargetPath)"/>
+    <OutputToolsFiles Include="$(TargetPath)"/>
   </ItemGroup>
 
   <!-- Build a NuGet package based on the nuspec file in the project. -->
   <Target Name="NuGetBuild" AfterTargets="CopyFilesToOutputDirectory">
     <ItemGroup>
-      <NuGetBuild Include="$(OutDir)Build\**\*.*"/>
-      <NuGetContent Include="$(OutDir)Content\**\*.*"/>
-      <NuGetLib Include="$(OutDir)Lib\**\*.*"/>
-      <NuGetTools Include="$(OutDir)Tools\**\*.*"/>
+      <OutputBuildFiles Include="$(OutDir)Build\**\*.*"/>
+      <OutputContentFiles Include="$(OutDir)Content\**\*.*"/>
+      <OutputLibFiles Include="$(OutDir)Lib\**\*.*"/>
+      <OutputToolsFiles Include="$(OutDir)Tools\**\*.*"/>
     </ItemGroup>
     
     <Message Text="Build NuGet Package for $(TargetFrameworkIdentifier) $(TargetFrameworkVersion) $(TargetFrameworkProfile)"/>
     <Message Text="OutDir: $(OutDir)"/>
-    <Message Text="NuGet Build; @(NuGetBuild)"/>
-    <Message Text="NuGet Content; @(NuGetContent)"/>
-    <Message Text="NuGet Libs; @(NuGetLib)"/>
-    <Message Text="NuGet Tools; @(NuGetTools)"/>
+    <Message Text="TargetPath: $(TargetPath)"/>
+    <Message Text="Output Build Files; @(OutputBuildFiles)"/>
+    <Message Text="Output Content Files; @(OutputContentFiles)"/>
+    <Message Text="Output Lib Files; @(OutputLibFiles)"/>
+    <Message Text="Output Tools Files; @(OutputToolsFiles)"/>
     <!--<CallTarget Targets="NuGetInit;NuGetClean;NuGetPrepare;NuGetSpec;NuGetPack"/>-->
   </Target>
 
@@ -156,8 +157,28 @@
     </GetAssemblyIdentity>
 
     <PropertyGroup>
+      <!-- Nuspec information values. -->
       <NuGetSpecId Condition=" '$(NuGetSpecId)' == '' ">%(Info.Name)</NuGetSpecId>
       <NuGetSpecVersion Condition=" '$(NuGetSpecVersion)' == '' ">%(Info.Version)</NuGetSpecVersion>
+      <NuGetSpecTitle Condition="'$(NuGetSpecTitle)'==''">$(MSBuildProjectName)</NuGetSpecTitle>
+      <NuGetSpecAuthors Condition="'$(NuGetSpecAuthors)'==''"></NuGetSpecAuthors>
+      <NuGetSpecOwners Condition="'$(NuGetSpecOwners)'==''">$(NuGetSpecAuthors)</NuGetSpecOwners>
+      <NuGetSpecDescription Condition="'$(NuGetSpecDescription)'==''"></NuGetSpecDescription>
+      <NuGetSpecReleaseNotes Condition="'$(NuGetSpecReleaseNotes)'==''"></NuGetSpecReleaseNotes>
+      <NuGetSpecSummary Condition="'$(NuGetSpecSummary)'==''"></NuGetSpecSummary>
+      <NuGetSpecLanguage Condition="'$(NuGetSpecLanguage)'==''"></NuGetSpecLanguage>
+      <NuGetSpecProjectUrl Condition="'$(NuGetSpecProjectUrl)'==''"></NuGetSpecProjectUrl>
+      <NuGetSpecIconUrl Condition="'$(NuGetSpecIconUrl)'==''"></NuGetSpecIconUrl>
+      <NuGetSpecLicenseUrl Condition="'$(NuGetSpecLicenseUrl)'==''"></NuGetSpecLicenseUrl>
+      <NuGetSpecCopyright Condition="'$(NuGetSpecCopyright)'==''"></NuGetSpecCopyright>
+      <NuGetSpecRequireLicenseAcceptance Condition="'$(NuGetSpecRequireLicenseAcceptance)'==''">No</NuGetSpecRequireLicenseAcceptance>
+      <NuGetSpecDependencies Condition="'$(NuGetSpecDependencies)'==''"></NuGetSpecDependencies>
+      <NuGetSpecReferences Condition="'$(NuGetSpecReferences)'==''"></NuGetSpecReferences>
+      <NuGetSpecFrameworkAssemblies Condition="'$(NuGetSpecFrameworkAssemblies)'==''"></NuGetSpecFrameworkAssemblies>
+      <NuGetSpecTags Condition="'$(NuGetSpecTags)'==''"></NuGetSpecTags>
+      <NuGetSpecDevelopmentDepency Condition="'$(NuGetSpecDevelopmentDepency)'==''"></NuGetSpecDevelopmentDepency>
+      
+      <!-- Nuspec package configuration. -->
       <NuGetOutDir Condition=" '$(NuGetOutDir)' == '$(OutDir)Package\' ">$(NuGetOutDir)$(NuGetSpecId).$(NuGetSpecVersion)\</NuGetOutDir>
       <NuGetSpecInput Condition=" '$(NuGetSpecInput)' == '' ">$(NuGetSpecId)$(NuGetSpecExt)</NuGetSpecInput>
       <NuGetSpecInputPath Condition=" '$(NuGetSpecInputPath)' == '' ">$(ProjectDir)$(NuGetSpecId)$(NuGetSpecExt)</NuGetSpecInputPath>
@@ -166,8 +187,28 @@
       <NuGetOutput>$(NuGetOutDir)$(NuGetSpecId).$(NuGetSpecVersion)$(NuGetPackageExt)</NuGetOutput>
     </PropertyGroup>
 
+    <Message Text="NuGet Package Configuration Metadata Information"/>
     <Message Text="NuGetSpecId: $(NuGetSpecId)"/>
     <Message Text="NuGetSpecVersion: $(NuGetSpecVersion)"/>
+    <Message Text="NuGetSpecTitle: $(NuGetSpecTitle)"/>
+    <Message Text="NuGetSpecAuthors: $(NuGetSpecAuthors)"/>
+    <Message Text="NuGetSpecOwners: $(NuGetSpecOwners)"/>
+    <Message Text="NuGetSpecDescription: $(NuGetSpecDescription)"/>
+    <Message Text="NuGetSpecReleaseNotes: $(NuGetSpecReleaseNotes)"/>
+    <Message Text="NuGetSpecSummary: $(NuGetSpecSummary)"/>
+    <Message Text="NuGetSpecLanguage: $(NuGetSpecLanguage)"/>
+    <Message Text="NuGetSpecProjectUrl: $(NuGetSpecProjectUrl)"/>
+    <Message Text="NuGetSpecIconUrl: $(NuGetSpecIconUrl)"/>
+    <Message Text="NuGetSpecLicenseUrl: $(NuGetSpecLicenseUrl)"/>
+    <Message Text="NuGetSpecCopyright: $(NuGetSpecCopyright)"/>
+    <Message Text="NuGetSpecRequireLicenseAcceptance: $(NuGetSpecRequireLicenseAcceptance)"/>
+    <Message Text="NuGetSpecDependencies: $(NuGetSpecDependencies)"/>
+    <Message Text="NuGetSpecReferences: $(NuGetSpecReferences)"/>
+    <Message Text="NuGetSpecFrameworkAssemblies: $(NuGetSpecFrameworkAssemblies)"/>
+    <Message Text="NuGetSpecTags: $(NuGetSpecTags)"/>
+    <Message Text="NuGetSpecDevelopmentDepency: $(NuGetSpecDevelopmentDepency)"/>
+
+    <Message Text="NuGet Package Configuration Location"/>
     <Message Text="NuGetOutDir: $(NuGetOutDir)"/>
     <Message Text="NuGetSpecInput: $(NuGetSpecInput)"/>
     <Message Text="NuGetSpecInputPath: $(NuGetSpecInputPath)"/>
@@ -179,15 +220,27 @@
   <Target Name="NuGetPrepare" AfterTargets="NuGetInit" DependsOnTargets="NuGetInit">
     <Message Text="Prepare NuGet Package: $(NuGetOutDir)"/>
     <MakeDir Directories="$(NuGetOutDir)"/>
-    <MakeDir Condition=" '@(NuGetBuild)' != '' " Directories="$(NuGetOutDir)build\%(RecursiveDir)"/>
-    <MakeDir Condition=" '@(NuGetContent)' != '' " Directories="$(NuGetOutDir)content\%(RecursiveDir)"/>
-    <MakeDir Condition=" '@(NuGetLib)' != '' " Directories="$(NuGetOutDir)lib\"/>
-    <MakeDir Condition=" '@(NuGetTools)' != '' " Directories="$(NuGetOutDir)tools\%(RecursiveDir)"/>
+    <MakeDir Condition=" '@(OutputBuildFiles)' != '' " Directories="$(NuGetOutDir)build\%(RecursiveDir)"/>
+    <MakeDir Condition=" '@(OutputContentFiles)' != '' " Directories="$(NuGetOutDir)content\%(RecursiveDir)"/>
+    <MakeDir Condition=" '@(OutputLibFiles)' != '' " Directories="$(NuGetOutDir)lib\"/>
+    <MakeDir Condition=" '@(OutputToolsFiles)' != '' " Directories="$(NuGetOutDir)tools\%(RecursiveDir)"/>
 
-    <Copy SourceFiles="@(NuGetBuild)" DestinationFolder="$(NuGetOutDir)build\%(RecursiveDir)"/>
-    <Copy SourceFiles="@(NuGetContent)" DestinationFolder="$(NuGetOutDir)content\%(RecursiveDir)"/>
-    <Copy SourceFiles="@(NuGetLib)" DestinationFolder="$(NuGetOutDir)lib\$(NuGetTargetFrameworkVersion)"/>
-    <Copy SourceFiles="@(NuGetTools)" DestinationFolder="$(NuGetOutDir)tools\%(RecursiveDir)"/>
+    <Copy SourceFiles="@(OutputBuildFiles)" DestinationFolder="$(NuGetOutDir)build\%(RecursiveDir)"/>
+    <Copy SourceFiles="@(OutputContentFiles)" DestinationFolder="$(NuGetOutDir)content\%(RecursiveDir)"/>
+    <Copy SourceFiles="@(OutputLibFiles)" DestinationFolder="$(NuGetOutDir)lib\$(NuGetTargetFrameworkVersion)"/>
+    <Copy SourceFiles="@(OutputToolsFiles)" DestinationFolder="$(NuGetOutDir)tools\%(RecursiveDir)"/>
+
+    <ItemGroup>
+      <NuGetBuildFiles Include="$(NuGetOutDir)build\**\*.*"/>
+      <NuGetContentFiles Include="$(NuGetOutDir)content\**\*.*"/>
+      <NuGetLibFiles Include="$(NuGetOutDir)lib\**\*.*"/>
+      <NuGetToolsFiles Include="$(NuGetOutDir)tools\**\*.*"/>
+    </ItemGroup>
+
+    <Message Text="NuGet Build Files: @(NuGetBuildFiles)"/>
+    <Message Text="NuGet Content Files: @(NuGetContentFiles)"/>
+    <Message Text="NuGet Lib Files: @(NuGetLibFiles)"/>
+    <Message Text="NuGet Tools Files: @(NuGetToolsFiles)"/>
   </Target>
 
   <!-- Specify where the XSLT file is so that we can create a spec file. -->
@@ -203,15 +256,19 @@
 
   <!-- Create NuGet Package Spec File. -->
   <Target Name="NuGetBuildSpec" AfterTargets="NuGetSpec" DependsOnTargets="NuGetSpec">
-    <PropertyGroup>
-      <NuGetPackageBuild>@(NuGetBuild->'Build\%(FileName)%(Extension)')</NuGetPackageBuild>
-      <NuGetPackageContent>@(NuGetContent->'Content\%(FileName)%(Extension)')</NuGetPackageContent>
-      <NuGetPackageLib>@(NuGetLib->'Lib\%(FileName)%(Extension)')</NuGetPackageLib>
-      <NuGetPackageTools>@(NuGetTools->'Tools\%(FileName)%(Extension)')</NuGetPackageTools>
-    </PropertyGroup>
-    
     <Message Text="Create NuGet Package Spec File"/>
     <Message Text="NuGetPackageXslt: $(NuGetPackageXsltPath)"/>
+    <PropertyGroup>
+      <NuGetPackageBuild>@(NuGetBuildFiles->'%(RelativeDir)%(FileName)%(Extension)'->Replace('$(NuGetOutDir)', ''))</NuGetPackageBuild>
+      <NuGetPackageContent>@(NuGetContentFiles->'%(RelativeDir)%(FileName)%(Extension)'->Replace('$(NuGetOutDir)', ''))</NuGetPackageContent>
+      <NuGetPackageLib>@(NuGetLibFiles->'%(RelativeDir)%(FileName)%(Extension)'->Replace('$(NuGetOutDir)', ''))</NuGetPackageLib>
+      <NuGetPackageTools>@(NuGetToolsFiles->'%(RelativeDir)%(FileName)%(Extension)'->Replace('$(NuGetOutDir)', ''))</NuGetPackageTools>
+    </PropertyGroup>
+    <Message Text="NuGet Package Build: $(NuGetPackageBuild)"/>
+    <Message Text="NuGet Package Content: $(NuGetPackageContent)"/>
+    <Message Text="NuGet Package Lib: $(NuGetPackageLib)"/>
+    <Message Text="NuGet Package Tools: $(NuGetPackageTools)"/>
+
     <!-- Transform the default NuGet spec file into a new one in the package directory. -->
     <XslTransformation XmlInputPaths="$(NuGetSpecInputPath)"
                        XslInputPath="$(NuGetPackageXsltPath)"
@@ -223,6 +280,19 @@
                         &lt;Parameter Name='authors' Value='$(NuGetSpecAuthors)'/&gt;
                         &lt;Parameter Name='owners' Value='$(NuGetSpecOwners)'/&gt;
                         &lt;Parameter Name='description' Value='$(NuGetSpecDescription)'/&gt;
+                        &lt;Parameter Name='releaseNotes' Value='$(NuGetSpecReleaseNotes)'/&gt;
+                        &lt;Parameter Name='summary' Value='$(NuGetSpecSummary)'/&gt;
+                        &lt;Parameter Name='language' Value='$(NuGetSpecLanguage)'/&gt;
+                        &lt;Parameter Name='projectUrl' Value='$(NuGetSpecProjectUrl)'/&gt;
+                        &lt;Parameter Name='iconUrl' Value='$(NuGetSpecIconUrl)'/&gt;
+                        &lt;Parameter Name='licenseUrl' Value='$(NuGetSpecLicenseUrl)'/&gt;
+                        &lt;Parameter Name='copyright' Value='$(NuGetSpecCopyright)'/&gt;
+                        &lt;Parameter Name='requireLicenseAcceptance' Value='$(NuGetSpecRequireLicenseAcceptance)'/&gt;
+                        &lt;Parameter Name='dependencies' Value='$(NuGetSpecDependencies)'/&gt;
+                        &lt;Parameter Name='references' Value='$(NuGetSpecReferences)'/&gt;
+                        &lt;Parameter Name='frameworkAssemblies' Value='$(NuGetSpecFrameworkAssemblies)'/&gt;
+                        &lt;Parameter Name='tags' Value='$(NuGetSpecTags)'/&gt;
+                        &lt;Parameter Name='developmentDependency' Value='$(NuGetSpecDevelopmentDepency)'/&gt;
                         &lt;Parameter Name='build' Value='$(NuGetPackageBuild)'/&gt;
                         &lt;Parameter Name='content' Value='$(NuGetPackageContent)'/&gt;
                         &lt;Parameter Name='lib' Value='$(NuGetPackageLib)'/&gt;

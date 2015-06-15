@@ -1,6 +1,8 @@
 # Fosol.NuGetWrapper 1.0.0.3
 Fosol.NuGetWrapper provides a way for any project to automatically build its own NuGet package.
 
+* Please note that updates to Fosol.NuGetWrapper will remove all installed pieces.  This means it will delete your customizations.  Please back them up before updating.
+
 If you have a project that you would like to convert into a NuGet package install Fosol.NuGetWrapper and compile your project.
 MSBuild will automatically create a 'Package' folder within your build target folder which will contain your NuGet package.
 
@@ -8,11 +10,8 @@ The default package created for your project will only contain your output targe
 In the case of a 'Library' project the package will contain the appropriate assembly ([projectName.dll]).
 In the case of an executable project the package will contain the appropriate compiled application.
 
-You will most likely need to manually update the default configuration so that other files are included in your package.
-This requires that you update two files; first update the "Fosol.NuGetWrapper.csproj" configuration file, secondly update the "[projectName].nuspec" file to include additional files and information.
-Both these files should reside in your project root folder.
-Refer to the Configuration section below before updating the "[projectName].nuspec" configuraiton file.
-Refer to the Configuration section below before updating the "Fosol.NuGetWrapper.csproj" configuration file. 
+You will need to manually update the default configuration so that other files are included in your package.
+This requires that you update your project file and the "[projectName].nuspec" file to include additional files and information.
 
 # Getting Started
 It's as simple as installing the Fosol.NuGetWrapper package and building your project.
@@ -42,46 +41,67 @@ The process Fosol.NuGetWrapper follows to create your package is as follows;
 Now build your project and it will create a package in your target output directory (i.e. \bin\debug\Package\)
 
 # Configuration
-There are two configuration files that need to be updated if your project requires addition files and information.
-The first file is a project file in your root project folder named "Fosol.NuGetWrapper.csproj". 
-It provides a way to dynamically control what files are included in the build output.
-It also provides a way to dynamically configure the nuspec configuration file.
-The second file is a NuSpec file named after your project, which is also in your root project folder ("[projectName].nuspec").
+When you install Fosol.NuGetWrapper it will generated a NuSpec file named after your project, which is in your root project folder ("[projectName].nuspec").
+You will need to update the nuspec file before building your project if you want the nuget package to be created.
+If you want to include additional assemblies, files and content you will need to follow the NuGet documentation to add those items.  By default Fosol.NuGetWrapper
+will include the compiled assembly for the project and all files in the following folders; build, content, lib, tools.
 
-## Project Configuration
-The project configuration provides a nice way to edit the build information without being forced to unload your project and edit your own project file.
-The "Fosol.NuGetWrapper.csproj" file is imported into your project when you install the Fosol.NuGetWrapper package.
-This project configuration file provides a way to select what files are included in your package and also provides a way to dynamically update the nuspec file.
+If you want to dynamically generate some of the nuspec file values add a PropertyGroup section within your project file and change the values.
+
+If you want to add or remove files included in your nuget package you can update your project file and add a Target that runs before the NuGetBuild Target (see example below).
+You will need to add this new Target after the import of the Fosol.NuGetWrapper.targets within your project file.
+
+  <!-- This provides a way to add or remove files from the package. -->
+  <Target Name="NuGetSetup" BeforeTargets="NuGetBuild">
+    <Message Text="Setting up the NuGet Package files"/>
+    <ItemGroup>
+      <NuGetLib Remove="$(TargetPath)"/>
+    </ItemGroup>
+  </Target>
 
 ### PropertyGroup Section
 The property group variables provide a way to control the build process; where files are copied and what values are used in the nuspec configuration.
     
-    Variable Name			Default Value					Description    
-    `````````````           `````````````                   ```````````
-    NuGetExtensionsDir      $(SolutionDir).nuget\           Location of the installed Fosol.NuGetWrapper helper files.
-    NuGetSpecXsltName       Fosol.NuGetWrapper.xslt         File used to transform the default nuspec file in your project.
-    NuGetOutDir             $(OutDir)Package\               Location of output directory that will contain the files which will be included in your package.
+    Variable Name							Default Value					Description    
+    `````````````							`````````````                   ```````````
+	NuGetWrapperId							Fosol.NuGetWrapper				Name of the Fosol.NuGetWrapper package.
+    NuGetSpecXsltName						Fosol.NuGetWrapper.xslt         File used to transform the default nuspec file in your project.
+
+	NuGetSpecExt							.nuspec							Extension for nuget spec file.
+	NuGetPackageExt							.nupkg							Extension for nuget package file.
     
-    NuGetSpecId                                             The id of your NuGet package.  If no value specified it will use your nuspec file value.
-    NuGetSpecVersion                                        The version of your NuGet package.  If no value specified it will use your nuspec file value.
-    NuGetSpecTitle          $(ProjectName)                  The title of your NuGet package.  If no value specified it will use your nuspec file value.
-    NuGetSpecAuthors                                        The authors of your NuGet package.  If no value specified it will use your nuspec file value.
-    NuGetSpecOwners                                         The owners of your NuGet package.  If no value specified it will use your nuspec file value.
-    NuGetSpecDescription                                    The description of your NuGet package.  If no value specified it will use your nuspec file value.
+    NuGetSpecId								%(Asssembly.Name)               The id of your NuGet package.  If no value specified it will use your nuspec file value.
+    NuGetSpecVersion						%(Asssembly.Version)            The version of your NuGet package.  If no value specified it will use your nuspec file value.
+    NuGetSpecTitle							$(ProjectName)                  The title of your NuGet package.  If no value specified it will use your nuspec file value.
+    NuGetSpecAuthors										                The authors of your NuGet package.  If no value specified it will use your nuspec file value.
+    NuGetSpecOwners															The owners of your NuGet package.  If no value specified it will use your nuspec file value.
+    NuGetSpecDescription													The description of your NuGet package.  If no value specified it will use your nuspec file value.
+	NuGetSpecReleaseNotes													A Description of the current release.
+	NuGetSpecSummary														A Short description of the NuGet package.
+	NuGetSpecLanguage														The Language of the package.
+	NuGetSpecProjectUrl														The URL to the project site.
+	NuGetSpecIconUrl														The URL to an icon that identifies the package.
+	NuGetSpecLicenseUrl														The URL to the license for the package.
+	NuGetSpecCopyright														The Copyright description.
+	NuGetSpecRequireLicenseAcceptance										Whether the license must be accepted before installation [yes|no]
+	NuGetSpecDependencies													A list of dependencies (NOT IMPLEMENTED)
+	NuGetSpecReferences														A list of references (NOT IMPLEMENTED)
+	NuGetSpecFrameworkAssemblies											A list of framework assemblies (NOT IMPLEMENTED)
+	NuGetSpecTags															A list of tags to identify the package for search.
+	NuGetSpecDevelopmentDepency												A list of development depency (NOT IMPLEMENTED)
+	
+    NuGetOutDir								$(OutDir)Package\               Location of output directory that will contain the files which will be included in your package.
     
     
 ### ItemGroup Section
 The item group variables provide a way to control what files are included in the NuGet package that will be built.
-
-** Don't forget that the base path for all files is the project root directory.
-
     
-    Variable Name           Default Value                   Description
-    `````````````           `````````````                   ```````````
-    NuGetBuild												The file(s) that will be included in the package "build" folder.
-    NuGetContent                                            The file(s) that will be included in the package "content" folder.
-    NuGetLib                $(TargetPath)                   The file(s) that will be included in the package "lib" folder.
-    NuGetTool               $(TargetPath)                   The file(s) that will be included in the package "tools" folder.
+    Variable Name           Default Value							Description
+    `````````````           `````````````							```````````
+    NuGetBuild				$(OutDir)Build\**\*.*					The file(s) that will be included in the package "build" folder.
+    NuGetContent            $(OutDir)Content\**\*.*					The file(s) that will be included in the package "content" folder.
+    NuGetLib                $(TargetPath);$(OutDir)Lib\**\*.*		The file(s) that will be included in the package "lib" folder.
+    NuGetTools              $(TargetPath);$(OutDir)Tools\**\*.*		The file(s) that will be included in the package "tools" folder.
 
 
 ## NuSpec Configuration

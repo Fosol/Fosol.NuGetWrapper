@@ -11,12 +11,12 @@
   <Target Name="NuGetSetup" BeforeTargets="NuGetBuild">
     <Message Text="Setting up the NuGet Package files."/>
     <ItemGroup>
-      <NuGetLib Remove="$(TargetPath)"/>
+      <OutputLibFiles Remove="$(TargetPath)"/>
     </ItemGroup>
-    <Message Text="NuGet Build; @(NuGetBuild)"/>
-    <Message Text="NuGet Content; @(NuGetContent)"/>
-    <Message Text="NuGet Libs; @(NuGetLib)"/>
-    <Message Text="NuGet Tools; @(NuGetTools)"/>
+    <Message Text="Output Build Files; @(OutputBuildFiles)"/>
+    <Message Text="Output Content Files; @(OutputContentFiles)"/>
+    <Message Text="Output Lib Files; @(OutputLibFiles)"/>
+    <Message Text="Output Tools Files; @(OutputToolsFiles)"/>
   </Target>
 
   <!-- Create NuGet Package Spec File. -->
