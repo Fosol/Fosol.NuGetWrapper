@@ -9,12 +9,12 @@
     <description>Convert a project into a NuGet package.  Install Fosol.NuGetWrapper and compile your project. MSBuild will automatically create a 'Package' folder within your build target folder which will contain your NuGet package.</description>
     <summary>Fosol NuGet Wrapper automatically creates a NuGet package for your project.</summary>
     <releaseNotes>
-      * Please note all updates will replace any customizations you have made.  
       Backup your copy of the files before updating!  
-      Removing a lot of unnecessary code.  
-      Removing Install.ps1 and Uninstall.ps1.  
-      Updating to be more inline with the future vesion of NuGet.
-      By default all files in your project under the following folders will be included in the nuget package; build, content, lib and tools.
+      Updating documentation.
+      Adding Install.ps1 and Uninstall.ps1 because Init.ps1 doesn't help in creating a default project nuspec file.
+      By default the files in your build directory will be included in the nuget package if they are in the following folders; build, content, lib and tools.
+      You can automatically update your nuget package nuspec by modifying the msbuild properties in the Fosol.NuGetWrapper.props project file (described in README.md).
+      XSLT transform has been updated to handle additional features and configuration.
     </releaseNotes>
     <copyright>Copyright (c) 2013-2015 Fosol Solutions</copyright>
     <language>en-US</language>
@@ -26,11 +26,14 @@
   <files>
     <file src="Build\Fosol.NuGetWrapper.props" target="Build\Fosol.NuGetWrapper.props" />
     <file src="Build\Fosol.NuGetWrapper.targets" target="Build\Fosol.NuGetWrapper.targets" />
-    <file src="Content\Fosol.NuGetWrapper\README.md" target="" />
+    <file src="Content\Fosol.NuGetWrapper\Fosol.NuGetWrapper.props" target="Content\Fosol.NuGetWrapper\Fosol.NuGetWrapper.props" />
+    <file src="Content\Fosol.NuGetWrapper\README.md" target="Content\Fosol.NuGetWrapper\README.md" />
     <file src="Tools\Fosol.NuGetWrapper.xslt" target="tools\Fosol.NuGetWrapper.xslt" />
     <file src="Tools\Fosol.Core.MSBuild.psd1" target="tools\Fosol.Core.MSBuild.psd1" />
     <file src="Tools\Fosol.Core.psm1" target="tools\Fosol.Core.psm1" />
     <file src="Tools\Fosol.Core.MSBuild.psm1" target="tools\Fosol.Core.MSBuild.psm1" />
     <file src="Tools\Init.ps1" target="tools\Init.ps1" />
+    <file src="Tools\Install.ps1" target="tools\Install.ps1" />
+    <file src="Tools\Uninstall.ps1" target="tools\Uninstall.ps1" />
   </files>
 </package>

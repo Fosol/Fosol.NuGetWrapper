@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <!--**************************************************************************************
+  * CHANGES IN THIS FILE WILL BE OVERWRITTEN BY THE NUGET PACKAGE UPDATE/INSTALL/UNINSTALL!
+  ******************************************************************************************-->
+  
+  <!--
+    PropertyGroup Section
+    The property group variables provide a way to control the build process; where files are copied and what values are used in the nuspec configuration.
+    
+    Variable Name			      Default Value					          Description    
+    `````````````           `````````````                   ```````````
+    NuGetSpecId             %(Asssembly.Name)               The id of your NuGet package.  If no value specified it will use your nuspec file value.
+    NuGetSpecVersion        %(Asssembly.Version)            The version of your NuGet package.  If no value specified it will use your nuspec file value.
+    NuGetSpecTitle          $(ProjectName)                  The title of your NuGet package.  If no value specified it will use your nuspec file value.
+    NuGetSpecAuthors                                        The authors of your NuGet package.  If no value specified it will use your nuspec file value.
+    NuGetSpecOwners                                         The owners of your NuGet package.  If no value specified it will use your nuspec file value.
+    NuGetSpecDescription                                    The description of your NuGet package.  If no value specified it will use your nuspec file value.
+	  NuGetSpecReleaseNotes													          A Description of the current release.
+	  NuGetSpecSummary														            A Short description of the NuGet package.
+	  NuGetSpecLanguage														            The Language of the package.
+	  NuGetSpecProjectUrl														          The URL to the project site.
+	  NuGetSpecIconUrl														            The URL to an icon that identifies the package.
+	  NuGetSpecLicenseUrl														          The URL to the license for the package.
+	  NuGetSpecCopyright														          The Copyright description.
+	  NuGetSpecRequireLicenseAcceptance										    Whether the license must be accepted before installation [yes|no]
+	  NuGetSpecDependencies													          A list of dependencies (NOT IMPLEMENTED)
+	  NuGetSpecReferences														          A list of references (NOT IMPLEMENTED)
+	  NuGetSpecFrameworkAssemblies											      A list of framework assemblies (NOT IMPLEMENTED)
+	  NuGetSpecTags															              A list of tags to identify the package for search.
+	  NuGetSpecDevelopmentDepency												      A list of development depency (NOT IMPLEMENTED)
+    
+    
+    ItemGroup Section
+    The item group variables provide a way to control what files are included in the NuGet package that will be built.
+    
+    Variable Name           Default Value							            Description
+    `````````````           `````````````							            ```````````
+    OutputBuildFiles				$(OutDir)Build\**\*.*					        The file(s) that will be included in the package "build" folder.
+    OutputContentFiles      $(OutDir)Content\**\*.*					      The file(s) that will be included in the package "content" folder.
+    OutputLibFiles          $(TargetPath);$(OutDir)Lib\**\*.*		  The file(s) that will be included in the package "lib" folder.
+    OutputToolsFiles        $(TargetPath);$(OutDir)Tools\**\*.*		The file(s) that will be included in the package "tools" folder.
+  -->
+
+  <!-- NuGetPackageFiles target provides a way to automatically include files into a nuget package. -->
+  <!-- You can add or remove files included in the package here -->
+  <Target Name="NuGetPackageFiles" BeforeTargets="NuGetBuild">
+    <!-- By default it will include the target assembly created by the build. -->
+    <ItemGroup Condition="'$(OutputType)' == 'Library'">
+      <OutputLibFiles Include="$(TargetPath)"/>
+    </ItemGroup>
+    <ItemGroup Condition="'$(OutputType)' == 'Exe' ">
+      <OutputToolsFiles Include="$(TargetPath)"/>
+    </ItemGroup>
+    <ItemGroup Condition="'$(OutputType)' == 'Winexe' ">
+      <OutputToolsFiles Include="$(TargetPath)"/>
+    </ItemGroup>
+
+    <!-- By default it will include all files in the build output directory under the following folders; build, content, lib and tools. -->
+    <ItemGroup>
+      <OutputBuildFiles Include="$(OutDir)Build\**\*.*"/>
+      <OutputContentFiles Include="$(OutDir)Content\**\*.*"/>
+      <OutputLibFiles Include="$(OutDir)Lib\**\*.*"/>
+      <OutputToolsFiles Include="$(OutDir)Tools\**\*.*"/>
+    </ItemGroup>
+  </Target>
+
+  <!-- NuGetInitProps target provides a way to automatically update the nuget package nuspec configuration file every time you build your project. -->
+  <Target Name="NuGetInitProps" BeforeTargets="NuGetInit">
+    <PropertyGroup>
+      <!-- NuGet Spec file property values. -->
+      <NuGetSpecId Condition="'$(NuGetSpecId)'==''"></NuGetSpecId>
+      <NuGetSpecVersion Condition="'$(NuGetSpecVersion)'==''"></NuGetSpecVersion>
+      <NuGetSpecTitle Condition="'$(NuGetSpecTitle)'==''"></NuGetSpecTitle>
+      <NuGetSpecAuthors Condition="'$(NuGetSpecAuthors)'==''"></NuGetSpecAuthors>
+      <NuGetSpecOwners Condition="'$(NuGetSpecOwners)'==''"></NuGetSpecOwners>
+      <NuGetSpecDescription Condition="'$(NuGetSpecDescription)'==''"></NuGetSpecDescription>
+      <NuGetSpecReleaseNotes Condition="'$(NuGetSpecReleaseNotes)'==''"></NuGetSpecReleaseNotes>
+      <NuGetSpecSummary Condition="'$(NuGetSpecSummary)'==''"></NuGetSpecSummary>
+      <NuGetSpecLanguage Condition="'$(NuGetSpecLanguage)'==''"></NuGetSpecLanguage>
+      <NuGetSpecProjectUrl Condition="'$(NuGetSpecProjectUrl)'==''"></NuGetSpecProjectUrl>
+      <NuGetSpecIconUrl Condition="'$(NuGetSpecIconUrl)'==''"></NuGetSpecIconUrl>
+      <NuGetSpecLicenseUrl Condition="'$(NuGetSpecLicenseUrl)'==''"></NuGetSpecLicenseUrl>
+      <NuGetSpecCopyright Condition="'$(NuGetSpecCopyright)'==''"></NuGetSpecCopyright>
+      <NuGetSpecRequireLicenseAcceptance Condition="'$(NuGetSpecRequireLicenseAcceptance)'==''"></NuGetSpecRequireLicenseAcceptance>
+      <NuGetSpecDependencies Condition="'$(NuGetSpecDependencies)'==''"></NuGetSpecDependencies>
+      <NuGetSpecReferences Condition="'$(NuGetSpecReferences)'==''"></NuGetSpecReferences>
+      <NuGetSpecFrameworkAssemblies Condition="'$(NuGetSpecFrameworkAssemblies)'==''"></NuGetSpecFrameworkAssemblies>
+      <NuGetSpecTags Condition="'$(NuGetSpecTags)'==''"></NuGetSpecTags>
+      <NuGetSpecDevelopmentDepency Condition="'$(NuGetSpecDevelopmentDepency)'==''"></NuGetSpecDevelopmentDepency>
+    </PropertyGroup>
+  </Target>
+
+</Project>

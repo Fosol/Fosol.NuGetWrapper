@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <Import Project="Build\Fosol.NuGetWrapper.props"/>
+
+  <PropertyGroup>
+    <NuGetProjectPropsDir>$(MSBuildProjectDirectory)\Content\$(NuGetWrapperId)\</NuGetProjectPropsDir>
+  </PropertyGroup>
+  
   <Import Project="Build\Fosol.NuGetWrapper.targets"/>
   
   <Target Name="CopyReadMe" BeforeTargets="NuGetBuild">
@@ -8,7 +13,7 @@
   </Target>
 
   <!-- This provides a way to add or remove files from the package. -->
-  <Target Name="NuGetSetup" BeforeTargets="NuGetBuild">
+  <Target Name="NuGetSetup" AfterTargets="NuGetPackageFiles" DependsOnTargets="NuGetPackageFiles">
     <Message Text="Setting up the NuGet Package files."/>
     <ItemGroup>
       <OutputLibFiles Remove="$(TargetPath)"/>

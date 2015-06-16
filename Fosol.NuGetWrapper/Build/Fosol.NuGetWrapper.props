@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0" DefaultTargets="NuGetBuild">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <!--
     PropertyGroup Section
     The property group variables provide a way to control the build process; where files are copied and what values are used in the nuspec configuration.
@@ -18,6 +18,19 @@
     NuGetSpecAuthors                                        The authors of your NuGet package.  If no value specified it will use your nuspec file value.
     NuGetSpecOwners                                         The owners of your NuGet package.  If no value specified it will use your nuspec file value.
     NuGetSpecDescription                                    The description of your NuGet package.  If no value specified it will use your nuspec file value.
+	  NuGetSpecReleaseNotes													          A Description of the current release.
+	  NuGetSpecSummary														            A Short description of the NuGet package.
+	  NuGetSpecLanguage														            The Language of the package.
+	  NuGetSpecProjectUrl														          The URL to the project site.
+	  NuGetSpecIconUrl														            The URL to an icon that identifies the package.
+	  NuGetSpecLicenseUrl														          The URL to the license for the package.
+	  NuGetSpecCopyright														          The Copyright description.
+	  NuGetSpecRequireLicenseAcceptance										    Whether the license must be accepted before installation [yes|no]
+	  NuGetSpecDependencies													          A list of dependencies (NOT IMPLEMENTED)
+	  NuGetSpecReferences														          A list of references (NOT IMPLEMENTED)
+	  NuGetSpecFrameworkAssemblies											      A list of framework assemblies (NOT IMPLEMENTED)
+	  NuGetSpecTags															              A list of tags to identify the package for search.
+	  NuGetSpecDevelopmentDepency												      A list of development depency (NOT IMPLEMENTED)
 	
     NuGetOutDir             $(OutDir)Package\               Location of output directory that will contain the files which will be included in your package.
     
@@ -34,19 +47,32 @@
   -->
   <PropertyGroup>
     <!-- Directory containing the Fosol.NuGetWrapper.xslt file. -->
-    <NuGetWrapperId Condition=" '$(NuGetWrapperId)' == '' ">Fosol.NuGetWrapper</NuGetWrapperId>
-    <NuGetSpecXsltName Condition=" '$(NuGetSpecXsltName)' == '' ">$(NuGetWrapperId).xslt</NuGetSpecXsltName>
+    <NuGetWrapperId>Fosol.NuGetWrapper</NuGetWrapperId>
+    <NuGetSpecXsltName>$(NuGetWrapperId).xslt</NuGetSpecXsltName>
 
     <NuGetSpecExt>.nuspec</NuGetSpecExt>
     <NuGetPackageExt>.nupkg</NuGetPackageExt>
 
     <!-- NuGet Spec file property values. -->
-    <NuGetSpecId Condition=" '$(NuGetSpecId)' == '' "></NuGetSpecId>
-    <NuGetSpecVersion Condition=" '$(NuGetSpecVersion)' == '' "></NuGetSpecVersion>
-    <NuGetSpecTitle Condition=" '$(NuGetSpecTitle)' == '' ">$(ProjectName)</NuGetSpecTitle>
-    <NuGetSpecAuthors Condition=" '$(NuGetSpecAuthors)' == '' "></NuGetSpecAuthors>
-    <NuGetSpecOwners Condition=" '$(NuGetSpecOwners)' == '' ">$(NuGetSpecAuthors)</NuGetSpecOwners>
-    <NuGetSpecDescription Condition=" '$(NuGetSpecDescription)' == '' "></NuGetSpecDescription>
+    <NuGetSpecId></NuGetSpecId>
+    <NuGetSpecVersion></NuGetSpecVersion>
+    <NuGetSpecTitle></NuGetSpecTitle>
+    <NuGetSpecAuthors></NuGetSpecAuthors>
+    <NuGetSpecOwners></NuGetSpecOwners>
+    <NuGetSpecDescription></NuGetSpecDescription>
+    <NuGetSpecReleaseNotes></NuGetSpecReleaseNotes>
+    <NuGetSpecSummary></NuGetSpecSummary>
+    <NuGetSpecLanguage></NuGetSpecLanguage>
+    <NuGetSpecProjectUrl></NuGetSpecProjectUrl>
+    <NuGetSpecIconUrl></NuGetSpecIconUrl>
+    <NuGetSpecLicenseUrl></NuGetSpecLicenseUrl>
+    <NuGetSpecCopyright></NuGetSpecCopyright>
+    <NuGetSpecRequireLicenseAcceptance></NuGetSpecRequireLicenseAcceptance>
+    <NuGetSpecDependencies></NuGetSpecDependencies>
+    <NuGetSpecReferences></NuGetSpecReferences>
+    <NuGetSpecFrameworkAssemblies></NuGetSpecFrameworkAssemblies>
+    <NuGetSpecTags></NuGetSpecTags>
+    <NuGetSpecDevelopmentDepency></NuGetSpecDevelopmentDepency>
   </PropertyGroup>
 </Project>
 

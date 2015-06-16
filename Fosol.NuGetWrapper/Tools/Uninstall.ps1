@@ -4,6 +4,6 @@ param($installPath, $toolsPath, $package, $project)
 # $package		A reference to the package object
 # $project		A reference to the target EnvDTE project object.  This type is desribed on MSDN, http://msdn.microsoft.com/en-us/library/51h9a6ew(v=VS.80).aspx
 
-Write-Host ("{0}{1}" -f "Running Init.ps1 for ", $package)
+Write-Host ("{0}{1}" -f "Running Uninstall.ps1 for ", $package)
 
 Import-Module (Join-Path $toolsPath Fosol.Core.MSBuild.psd1)

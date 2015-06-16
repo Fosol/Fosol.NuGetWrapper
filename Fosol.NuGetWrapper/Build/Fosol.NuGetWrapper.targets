@@ -3,7 +3,10 @@
   <PropertyGroup>
     <!-- Directory location that the NuGet Package will be built. -->
     <NuGetOutDir Condition=" '$(NuGetOutDir)' == '' ">$(OutDir)Package\</NuGetOutDir>
+    <NuGetProjectPropsDir Condition="'$(NuGetProjectPropsDir)'==''">$(MSBuildProjectDirectory)\$(NuGetWrapperId)\</NuGetProjectPropsDir>
   </PropertyGroup>
+
+  <Import Project="$(NuGetProjectPropsDir)$(NugetWrapperId).props"/>
 
   <Choose>
     <When Condition=" '$(TargetFrameworkIdentifier)' == '.NETFramework' ">
@@ -120,26 +123,8 @@
     <!--<RemoveDir Directories="@(DirsToClean)"/>-->
   </Target>
 
-  <!-- By default it will include the target assembly created by the build. -->
-  <ItemGroup Condition="'$(OutputType)' == 'Library'">
-    <OutputLibFiles Include="$(TargetPath)"/>
-  </ItemGroup>
-  <ItemGroup Condition="'$(OutputType)' == 'Exe' ">
-    <OutputToolsFiles Include="$(TargetPath)"/>
-  </ItemGroup>
-  <ItemGroup Condition="'$(OutputType)' == 'Winexe' ">
-    <OutputToolsFiles Include="$(TargetPath)"/>
-  </ItemGroup>
-
   <!-- Build a NuGet package based on the nuspec file in the project. -->
-  <Target Name="NuGetBuild" AfterTargets="CopyFilesToOutputDirectory">
-    <ItemGroup>
-      <OutputBuildFiles Include="$(OutDir)Build\**\*.*"/>
-      <OutputContentFiles Include="$(OutDir)Content\**\*.*"/>
-      <OutputLibFiles Include="$(OutDir)Lib\**\*.*"/>
-      <OutputToolsFiles Include="$(OutDir)Tools\**\*.*"/>
-    </ItemGroup>
-    
+  <Target Name="NuGetBuild" AfterTargets="CopyFilesToOutputDirectory" DependsOnTargets="NuGetPackageFiles">
     <Message Text="Build NuGet Package for $(TargetFrameworkIdentifier) $(TargetFrameworkVersion) $(TargetFrameworkProfile)"/>
     <Message Text="OutDir: $(OutDir)"/>
     <Message Text="TargetPath: $(TargetPath)"/>
@@ -147,11 +132,10 @@
     <Message Text="Output Content Files; @(OutputContentFiles)"/>
     <Message Text="Output Lib Files; @(OutputLibFiles)"/>
     <Message Text="Output Tools Files; @(OutputToolsFiles)"/>
-    <!--<CallTarget Targets="NuGetInit;NuGetClean;NuGetPrepare;NuGetSpec;NuGetPack"/>-->
   </Target>
 
   <!-- Initialize information from the assembly. -->
-  <Target Name="NuGetInit" AfterTargets="NuGetBuild" DependsOnTargets="NuGetBuild">
+  <Target Name="NuGetInit" AfterTargets="NuGetBuild" DependsOnTargets="NuGetBuild;NuGetInitProps">
     <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
       <Output TaskParameter="Assemblies" ItemName="Info" />
     </GetAssemblyIdentity>
@@ -161,9 +145,9 @@
       <NuGetSpecId Condition=" '$(NuGetSpecId)' == '' ">%(Info.Name)</NuGetSpecId>
       <NuGetSpecVersion Condition=" '$(NuGetSpecVersion)' == '' ">%(Info.Version)</NuGetSpecVersion>
       <NuGetSpecTitle Condition="'$(NuGetSpecTitle)'==''">$(MSBuildProjectName)</NuGetSpecTitle>
-      <NuGetSpecAuthors Condition="'$(NuGetSpecAuthors)'==''"></NuGetSpecAuthors>
+      <NuGetSpecAuthors Condition="'$(NuGetSpecAuthors)'==''">$(MSBuildProjectName)</NuGetSpecAuthors>
       <NuGetSpecOwners Condition="'$(NuGetSpecOwners)'==''">$(NuGetSpecAuthors)</NuGetSpecOwners>
-      <NuGetSpecDescription Condition="'$(NuGetSpecDescription)'==''"></NuGetSpecDescription>
+      <NuGetSpecDescription Condition="'$(NuGetSpecDescription)'==''">$(MSBuildProjectName)</NuGetSpecDescription>
       <NuGetSpecReleaseNotes Condition="'$(NuGetSpecReleaseNotes)'==''"></NuGetSpecReleaseNotes>
       <NuGetSpecSummary Condition="'$(NuGetSpecSummary)'==''"></NuGetSpecSummary>
       <NuGetSpecLanguage Condition="'$(NuGetSpecLanguage)'==''"></NuGetSpecLanguage>

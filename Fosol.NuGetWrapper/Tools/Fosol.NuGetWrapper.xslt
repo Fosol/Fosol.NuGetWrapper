@@ -45,14 +45,19 @@
 
       <!-- Add metadata information. -->
       <xsl:apply-templates select="nuspec:package/nuspec:metadata"/>
+      <xsl:apply-templates select="package/metadata"/>
 
       <!-- Add files to be included in the package -->
       <xsl:choose>
+        <xsl:when test="not(package/files)">
+          <xsl:call-template name="files"></xsl:call-template>
+        </xsl:when>
         <xsl:when test="not(nuspec:package/nuspec:files)">
           <xsl:call-template name="files"></xsl:call-template>
         </xsl:when>
         <xsl:otherwise>
           <xsl:apply-templates select="nuspec:package/nuspec:files"/>
+          <xsl:apply-templates select="package/files"/>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:element>
@@ -399,5 +404,286 @@
         <xsl:with-param name="files" select="$files"/>
       </xsl:call-template>
     </xsl:if>
+  </xsl:template>
+
+  <!-- No namespace -->
+  <xsl:template match="metadata">
+    <xsl:copy>
+      <xsl:apply-templates select="id"/>
+      <xsl:apply-templates select="version"/>
+      <xsl:apply-templates select="title"/>
+      <xsl:apply-templates select="authors"/>
+      <xsl:apply-templates select="owners"/>
+      <xsl:apply-templates select="description"/>
+      <xsl:apply-templates select="releaseNotes"/>
+      <xsl:apply-templates select="summary"/>
+      <xsl:apply-templates select="language"/>
+      <xsl:apply-templates select="projectUrl"/>
+      <xsl:apply-templates select="iconUrl"/>
+      <xsl:apply-templates select="licenseUrl"/>
+      <xsl:apply-templates select="copyright"/>
+      <xsl:apply-templates select="requireAcceptanceLicense"/>
+      <xsl:apply-templates select="dependencies"/>
+      <xsl:apply-templates select="references"/>
+      <xsl:apply-templates select="frameworkAssemblies"/>
+      <xsl:apply-templates select="tags"/>
+      <xsl:apply-templates select="developmentDependency"/>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="id">
+    <xsl:copy>
+      <xsl:choose>
+        <xsl:when test="text()='$id$' and $id!=''">
+          <xsl:value-of select="$id"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="text()"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="version">
+    <xsl:copy>
+      <xsl:choose>
+        <xsl:when test="text()='$version$' and $version!=''">
+          <xsl:value-of select="$version"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="text()"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="title">
+    <xsl:copy>
+      <xsl:choose>
+        <xsl:when test="text()='$title$' and $title!=''">
+          <xsl:value-of select="$title"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="text()"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="authors">
+    <xsl:copy>
+      <xsl:choose>
+        <xsl:when test="text()='$authors$' and $authors!=''">
+          <xsl:value-of select="$authors"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="text()"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="owners">
+    <xsl:copy>
+      <xsl:choose>
+        <xsl:when test="text()='$owners$' and $owners!=''">
+          <xsl:value-of select="$owners"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="text()"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="description">
+    <xsl:copy>
+      <xsl:choose>
+        <xsl:when test="text()='$description$' and $description!=''">
+          <xsl:value-of select="$description"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="text()"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="releaseNotes">
+    <xsl:copy>
+      <xsl:choose>
+        <xsl:when test="text()='$releaseNotes$' and $releaseNotes!=''">
+          <xsl:value-of select="$releaseNotes"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="text()"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="summary">
+    <xsl:copy>
+      <xsl:choose>
+        <xsl:when test="text()='$summary$' and $summary!=''">
+          <xsl:value-of select="$summary"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="text()"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="language">
+    <xsl:copy>
+      <xsl:choose>
+        <xsl:when test="text()='$language$' and $language!=''">
+          <xsl:value-of select="$language"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="text()"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="projectUrl">
+    <xsl:copy>
+      <xsl:choose>
+        <xsl:when test="text()='$projectUrl$' and $projectUrl!=''">
+          <xsl:value-of select="$projectUrl"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="text()"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="iconUrl">
+    <xsl:copy>
+      <xsl:choose>
+        <xsl:when test="text()='$iconUrl$' and $iconUrl!=''">
+          <xsl:value-of select="$iconUrl"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="text()"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="licenseUrl">
+    <xsl:copy>
+      <xsl:choose>
+        <xsl:when test="text()='$licenseUrl$' and $licenseUrl!=''">
+          <xsl:value-of select="$licenseUrl"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="text()"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="copyright">
+    <xsl:copy>
+      <xsl:choose>
+        <xsl:when test="text()='$copyright$' and $copyright!=''">
+          <xsl:value-of select="$copyright"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="text()"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="requireLicenseAcceptance">
+    <xsl:copy>
+      <xsl:choose>
+        <xsl:when test="text()='$requireLicenseAcceptance$' and $requireLicenseAcceptance!=''">
+          <xsl:value-of select="$requireLicenseAcceptance"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="text()"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="dependencies">
+    <xsl:copy>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="references">
+    <xsl:copy>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="frameworkAssemblies">
+    <xsl:copy>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="tags">
+    <xsl:copy>
+      <xsl:choose>
+        <xsl:when test="text()='$tags$' and $tags!=''">
+          <xsl:value-of select="$tags"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="text()"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="developmentDependency">
+    <xsl:copy>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="files">
+    <xsl:copy>
+      <xsl:value-of select="$newline"/>
+      <!-- Dynamically add the files in the Build directory -->
+      <xsl:if test="$build!=''">
+        <xsl:call-template name="file">
+          <xsl:with-param name="value" select="$build"/>
+          <xsl:with-param name="files" select="*"/>
+        </xsl:call-template>
+      </xsl:if>
+      <!-- Dynamically add the files in the Content directory -->
+      <xsl:if test="$content!=''">
+        <xsl:call-template name="file">
+          <xsl:with-param name="value" select="$content"/>
+          <xsl:with-param name="files" select="*"/>
+        </xsl:call-template>
+      </xsl:if>
+      <!-- Dynamically add the files in the Lib directory -->
+      <xsl:if test="$lib!=''">
+        <xsl:call-template name="file">
+          <xsl:with-param name="value" select="$lib"/>
+          <xsl:with-param name="files" select="*"/>
+        </xsl:call-template>
+      </xsl:if>
+      <!-- Dynamically add the files in the Tools directory -->
+      <xsl:if test="$tools!=''">
+        <xsl:call-template name="file">
+          <xsl:with-param name="value" select="$tools"/>
+          <xsl:with-param name="files" select="*"/>
+        </xsl:call-template>
+      </xsl:if>
+      <!-- Add all the files that are in the project nuspec -->
+      <xsl:for-each select="*">
+        <xsl:value-of select="concat($tab, $tab)"/>
+        <xsl:copy-of select="."/>
+        <xsl:value-of select="$newline"/>
+      </xsl:for-each>
+      <xsl:value-of select="$tab"/>
+    </xsl:copy>
   </xsl:template>
 </xsl:stylesheet>
