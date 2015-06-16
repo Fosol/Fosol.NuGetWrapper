@@ -33,8 +33,8 @@
   
   <Target Name="CopyPackage" AfterTargets="AfterBuild">
     <Exec Condition="$(ComputerName) == 'PDJMFOSTER2'" 
-          Command="xcopy &quot;$(NuGetOutput)&quot; &quot;C:\Users\jmfoster\SkyDrive\Fosol Solutions\Libraries\NuGetFeed&quot; /y" />
+          Command="xcopy &quot;$(NuGetPackageOutput)&quot; &quot;C:\Users\jmfoster\SkyDrive\Fosol Solutions\Libraries\NuGetFeed&quot; /y" />
     <Exec Condition="$(ComputerName) == 'XPS13'"
-          Command="xcopy &quot;$(NuGetOutput)&quot; &quot;C:\Users\jeremy\SkyDrive\Fosol Solutions\Libraries\NuGetFeed&quot; /y" />
+          Command="xcopy &quot;$(NuGetPackageOutput)&quot; &quot;C:\Users\jeremy\SkyDrive\Fosol Solutions\Libraries\NuGetFeed&quot; /y" />
   </Target>
 </Project>

@@ -168,7 +168,7 @@
       <NuGetSpecInputPath Condition=" '$(NuGetSpecInputPath)' == '' ">$(ProjectDir)$(NuGetSpecId)$(NuGetSpecExt)</NuGetSpecInputPath>
       <NuGetSpecOutput Condition=" '$(NuGetSpecOutput)' == '' ">$(NuGetSpecId).$(NuGetSpecVersion)$(NuGetSpecExt)</NuGetSpecOutput>
       <NuGetSpecOutputPath Condition=" '$(NuGetSpecOutputPath)' == '' ">$(ProjectDir)$(NuGetOutDir)$(NuGetSpecOutput)</NuGetSpecOutputPath>
-      <NuGetOutput>$(NuGetOutDir)$(NuGetSpecId).$(NuGetSpecVersion)$(NuGetPackageExt)</NuGetOutput>
+      <NuGetPackageOutput>$(NuGetOutDir)$(NuGetSpecId).$(NuGetSpecVersion)$(NuGetPackageExt)</NuGetPackageOutput>
     </PropertyGroup>
 
     <Message Text="NuGet Package Configuration Metadata Information"/>
@@ -241,7 +241,7 @@
   <!-- Create NuGet Package Spec File. -->
   <Target Name="NuGetBuildSpec" AfterTargets="NuGetSpec" DependsOnTargets="NuGetSpec">
     <Message Text="Create NuGet Package Spec File"/>
-    <Message Text="NuGetPackageXslt: $(NuGetPackageXsltPath)"/>
+    <Message Text="NuGet Package Xslt: $(NuGetPackageXsltPath)"/>
     <PropertyGroup>
       <NuGetPackageBuild>@(NuGetBuildFiles->'%(RelativeDir)%(FileName)%(Extension)'->Replace('$(NuGetOutDir)', ''))</NuGetPackageBuild>
       <NuGetPackageContent>@(NuGetContentFiles->'%(RelativeDir)%(FileName)%(Extension)'->Replace('$(NuGetOutDir)', ''))</NuGetPackageContent>
@@ -286,7 +286,7 @@
 
   <!-- Create a NuGet Package based on the nuspec file created in the prior target. -->
   <Target Name="NuGetPack" AfterTargets="NuGetBuildSpec" DependsOnTargets="NuGetBuildSpec">
-    <Message Text="NuGetOutput $(NuGetOutput)"/>
+    <Message Text="NuGet Package Output: $(NuGetPackageOutput)"/>
     <Exec Command="nuget.exe pack &quot;$(NuGetSpecOutput)&quot; -Verbosity detailed -NonInteractive" WorkingDirectory="$(NuGetOutDir)"/>
   </Target>
 
